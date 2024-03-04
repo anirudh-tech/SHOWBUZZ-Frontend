@@ -10,13 +10,14 @@ interface TempData {
     email: string;
     password: string;
     otp?:string
+    role?: string;
 }
 
 
 function Otp({ userData }: { userData: TempData }) {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    console.log(userData,'userData')
+    console.log(userData,'userData from otp')
     const [otp1, setOtp1] = useState<string>("");
     const [otp2, setOtp2] = useState<string>("");
     const [otp3, setOtp3] = useState<string>("");
@@ -113,12 +114,12 @@ function Otp({ userData }: { userData: TempData }) {
         console.log(joinedOtp,'----------')
         userData.otp = joinedOtp
         await dispatch(userSignup(userData))
-        navigate("/home");
+        navigate("/");
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form className='mt-8' onSubmit={handleSubmit}>
                 <div className="flex flex-col space-y-16">
                     <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
                         {[otp1, otp2, otp3, otp4].map((otp, index) => (
