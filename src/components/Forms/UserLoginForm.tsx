@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import loginImage from '../../assets/loginImage2.jpg'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { userLogin } from '../../redux/actions/userActions';
@@ -27,7 +27,7 @@ function UserLoginForm() {
 
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
-  const { user, error, loading } = useSelector((state: IUserSelector) => state.user);
+  const {  error } = useSelector((state: IUserSelector) => state.user);
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,9 +48,9 @@ function UserLoginForm() {
   const googleSignIn = async (response: string | any, status: boolean) => {
     if (status) {
       try {
-        let credentials: CustomJwtPayload = jwtDecode(response.credential);
+        const credentials: CustomJwtPayload = jwtDecode(response.credential);
         console.log(credentials, "value")
-        let userValues: UserValues = {
+        const userValues: UserValues = {
           email: credentials.email,
           google: true
         }

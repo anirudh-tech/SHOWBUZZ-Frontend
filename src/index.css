@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.side-nav-link-sp {
+    @apply flex px-3 py-6 rounded items-center gap-4 active:bg-gray-200 hover:text-blue-600 hover:bg-gray-300;
+  }
+  body {
+    @apply bg-gradient-to-l from-gray-800 to-gray-950 ;
+  }
+  

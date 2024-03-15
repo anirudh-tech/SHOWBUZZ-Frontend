@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUser, userLogin, userSignup } from "../../actions/userActions";
+import { fetchUser, userLogin, userSignup, logout } from "../../actions/userActions";
 import { IUserSignupData } from "../../../interface/IUserSignup";
 import { IUserLogin } from "../../../interface/IUserLogin";
 
@@ -15,9 +15,6 @@ const userSlice = createSlice({
     reducers: {
         makeErrorDisable: (state) => {
             state.error = null;
-          },
-          logout: (state) => {
-            state.user = null;
           },
     },
     extraReducers: (builder) => {
@@ -60,8 +57,22 @@ const userSlice = createSlice({
         .addCase(fetchUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
-        });
+        })
+        .addCase(logout.fulfilled, (state) => {
+            state.user = null;
+            state.loading = false;
+            state.error = null;
+        })
+        .addCase(logout.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(logout.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+
     }
 });
-export const {makeErrorDisable, logout} = userSlice.actions;
+export const {makeErrorDisable} = userSlice.actions;
 export default userSlice.reducer;

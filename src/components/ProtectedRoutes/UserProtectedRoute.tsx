@@ -7,7 +7,7 @@ interface  Props {
 }
 
 function UserProtectedRoute({element}:Props) {
-    const user = useSelector((state: any) => state.user);
+    const {user} = useSelector((state: any) => state.user);
   return (
     <>
     {user?.role === 'user' ? <>{element}</> : <Navigate  to="/login" />}

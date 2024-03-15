@@ -1,17 +1,31 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
-import UserSignup from "./pages/UserSignup"
+import UserSignup from "./pages/User-Pages/UserSignup"
 import { useDispatch, useSelector } from "react-redux";
 import { IUserSelector } from "./interface/IUserSlice";
-import UserProtectedRoute from "./components/ProtectedRoutes/UserProtectedRoute";
 import { makeErrorDisable } from './redux/reducers/user/userSlice';
 import { Toaster } from "react-hot-toast";
-import TheatreSignup from "./pages/TheatreSignup";
+// import TheatreSignup from "./pages/Theatre-Pages/TheatreSignup";
 import Navbar from "./components/navbar/Navbar";
-import UserHome from "./pages/UserHome";
+import UserHome from "./pages/User-Pages/UserHome";
 import { useEffect } from "react";
 import { AppDispatch } from "./redux/store";
 import { fetchUser } from "./redux/actions/userActions";
+import TheatreHome from "./pages/Theatre-Pages/TheatreHome";
+import NotFound from "./pages/NotFound";
+import UserSettings from "./pages/User-Pages/UserSettings";
+import TheatreProtectedRoute from "./components/ProtectedRoutes/TheatreProtectedRoute";
+import TheatreSettings from "./pages/Theatre-Pages/TheatreSettings";
+import TheatreSignup from "./pages/Theatre-Pages/TheatreSignup";
+import AdminDashboard from "./pages/Admin-Pages/AdminDashboard";
+import AdminUsersList from "./pages/Admin-Pages/AdminUsersList";
+import AdminSubscribersList from "./pages/Admin-Pages/AdminSubscribersList";
+import AdminTheatresList from "./pages/Admin-Pages/AdminTheatresList";
+import AdminTheatreMovies from "./pages/Admin-Pages/AdminTheatreMovies";
+import AdminAddMovies from "./pages/Admin-Pages/AdminAddMovies";
+import UserTheatreMovies from "./pages/User-Pages/UserTheatreMovies";
+import AdminSettings from "./pages/Admin-Pages/AdminSettings";
+
 
 
 function App() {
@@ -31,78 +45,81 @@ function App() {
         dispatch(makeErrorDisable());
       }, 5000);
     }
-  }, [error, dispatch]);
+  }, [error]);
 
-  if (user === null) {
+  if (user === null || role == undefined) {
     // User is not authenticated
     return (
       <>
         <Toaster position="top-center" />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<UserSignup />} />
-        <Route path="/theatre/signup" element={<TheatreSignup />} />
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="*" element={<Navigate to={"/"} />} />
-      </Routes>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<UserSignup />} />
+          <Route path="/theatre/signup" element={<TheatreSignup />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
       </>
     );
   }
 
   if (user?.role === 'user') {
-    // User is authenticated and has a 'user' role
     return (
       <>
-      <Toaster position="top-center" />
+        <Toaster position="top-center" />
         <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/userHome" />} />
+          <Route path="/login" element={!user ? <Login /> : <Navigate to={'/userHome'} />} />
           <Route path='/userHome' element={user ? <UserHome /> : <Navigate to={'/login'} />} />
-          {/* Add your user-specific routes here */}
-          <Route path="*" element={<Navigate to={"/userHome"} />} />
+          <Route path='/userTheatreMovies' element={user ? <UserTheatreMovies /> : <Navigate to={'/login'} />} />
+          <Route path='/selectTheatre/:id' element={user ? <UserTheatreMovies /> : <Navigate to={'/login'} />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/settings" element={<UserSettings />} />
         </Routes>
       </>
     );
   }
 
   if (user?.role === 'theatre') {
-    // User is authenticated and has a 'theatre' role
+
     return (
       <>
-      <Toaster position="top-center" />
-      <Routes>
-      <Route path="/" element={<Navigate to="/theatreHome" />} />
-        {/* Add your theatre-specific routes here */}
-        <Route path="*" element={<Navigate to={"/theatreHome"} />} />
-
-      </Routes>
+        <Toaster position="top-center" />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Navigate to="/theatre/dashboard" />} />
+          <Route path="/theatre/signup" element={<Navigate to="/theatre/dashboard" />} />
+          <Route path="/login" element={<Navigate to="/theatre/dashboard" />} />
+          <Route path='/theatre/dashboard' element={user ? <TheatreHome /> : <Navigate to={'/'} />} />
+          <Route path="/theatre/settings" element={<TheatreProtectedRoute element={<TheatreSettings />} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </>
     );
   }
 
+  if (user?.role === 'admin') {
+    return (
+      <>
+        <Toaster position="top-center" />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Navigate to="/admin/dashboard" />} />
+          <Route path="/login" element={<Navigate to="/admin/dashboard" />} />
+          <Route path='/admin/dashboard' element={user ? <AdminDashboard /> : <Navigate to={'/'} />} />
+          <Route path="/admin/users-list" element={user ? <AdminUsersList /> : <Navigate to={'/'} />} />
+          <Route path="/admin/subscribers-list" element={user ? <AdminSubscribersList /> : <Navigate to={'/'} />} />
+          <Route path="/admin/theatres-list" element={user ? <AdminTheatresList /> : <Navigate to={'/'} />} />
+          <Route path="/admin/theatre-movies" element={user ? <AdminTheatreMovies /> : <Navigate to={'/'} />} />
+          <Route path="/admin/addMovies" element={user ? <AdminAddMovies /> : <Navigate to={'/'} />} />
+          <Route path="/admin/settings" element={user ? <AdminSettings /> : <Navigate to={'/'} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </>
+    )
+  }
 
-  return (
-      <Navigate to="/login" />
-    ) 
-    
-  // return (
-  //   <>
-  //   {user ? user?.role === "user" && <Navbar /> : ""}
-  //     <Routes>
-  //       <Route path="/login" element={(!user && !role) ? <Login /> : <Navigate to={"/"} />} />
-  //       <Route path="/signup" element={(!user && !role) ? <UserSignup /> : <Navigate to={"/"} />} />
-  //       <Route path="/theatre/signup" element={(user && role !== undefined) ? <Navigate to={"/"} /> : <TheatreSignup />} />
-  //     {user !== null && user?.role && (
-  //       <>
-  //       <Route path='/' element={<>{user?.role === 'admin' ? <Navigate to={'/admin/dashboard'} /> : user?.role === "theatre" ? <Navigate to={'/theatre/home'} /> : <UserHome/>}</>} />
-  //       </>
-  //     )}
-  //         <Route path='/' element= {<Navigate to="/login" />}/>
-  //         <Route path="/theatre/signup" element={(user && role !== undefined) ? <Navigate to={"/"} /> : <TheatreSignup />} />
-  //       <Route path='/userHome' element={<>{UserProtectedRoute({ element: <UserHome /> })}</>} />
-  //     </Routes>
-  //   </>
-  // )
 }
 
 export default App

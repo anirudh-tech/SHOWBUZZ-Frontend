@@ -21,7 +21,7 @@ interface CustomJwtPayload {
 interface UserValues {
   username: string;
   email: string;
-  role?: string; 
+  role?: string;
 }
 interface TempData {
   username: string;
@@ -46,27 +46,28 @@ const temporaryData = {
 }
 
 function TheatreSignupForm() {
-    const [isOTP, setIsOTP] = useState<boolean>(false)
+  const [isOTP, setIsOTP] = useState<boolean>(false)
   const [tempData, setTempData] = useState<TempData>(temporaryData)
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
   console.log(tempData);
-  
+
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
     initialValues,
     validationSchema: ValidationSchema,
     onSubmit: async (values, action) => {
-      const {confirmPassword,...restValues} = values
-      let dataToSend ={
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { confirmPassword, ...restValues } = values
+      const dataToSend = {
         ...restValues,
-        role:"theatre"
+        role: "theatre"
       }
       const response = await dispatch(userSignup(restValues))
-      console.log(response,'response ----')
-      if(response){
+      console.log(response, 'response ----')
+      if (response) {
         setIsOTP(!isOTP);
         action.resetForm();
         setTempData(dataToSend);
@@ -74,17 +75,17 @@ function TheatreSignupForm() {
     }
   })
 
-  
+
 
   const googleSignIn = async (response: string | any, status: boolean) => {
     if (status) {
       try {
-        let credentials: CustomJwtPayload = jwtDecode(response.credential);
+        const credentials: CustomJwtPayload = jwtDecode(response.credential);
         console.log(credentials, "value")
-        let userValues: UserValues = {
+        const userValues: UserValues = {
           username: credentials.name,
           email: credentials.email,
-          role:  tempData.role,
+          role: tempData.role,
         }
 
         await dispatch(userSignup(userValues));
@@ -109,7 +110,7 @@ function TheatreSignupForm() {
               <h1 className='text-2xl font-bold text-white mb-4 font-roboto'>Signup For Your Account</h1>
               <form onSubmit={handleSubmit}>
                 <div className='mb-4'>
-                  <label htmlFor='username' className='block text-sm font-medium text-white'> 
+                  <label htmlFor='username' className='block text-sm font-medium text-white'>
                     Username
                   </label>
                   <input
@@ -141,60 +142,60 @@ function TheatreSignupForm() {
                   {errors.email && touched.email ? (<p className='text-red-700'>{errors.email}</p>) : null}
                 </div>
                 <div className='mb-4'>
-  <label htmlFor='password' className='block text-sm font-medium text-white'>
-    Password
-  </label>
-  <div className='flex items-center'>
-    <input
-      type={showPassword ? 'text' : 'password'}
-      id='password'
-      name='password'
-      className='mt-1 p-2 w-full border rounded-md'
-      placeholder='Enter your password'
-      value={values.password}
-      onChange={handleChange}
-      onBlur={handleBlur}
-    />
-    <button
-      type='button'
-      onClick={() => setShowPassword(!showPassword)}
-      className='ml-2 text-white focus:outline-none'
-    >
-      {showPassword ? <FiEyeOff /> : <FiEye />}
-    </button>
-  </div>
-  {errors.password && touched.password ? (
-    <p className='text-red-700'>{errors.password}</p>
-  ) : null}
-</div>
+                  <label htmlFor='password' className='block text-sm font-medium text-white'>
+                    Password
+                  </label>
+                  <div className='flex items-center'>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      id='password'
+                      name='password'
+                      className='mt-1 p-2 w-full border rounded-md'
+                      placeholder='Enter your password'
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <button
+                      type='button'
+                      onClick={() => setShowPassword(!showPassword)}
+                      className='ml-2 text-white focus:outline-none'
+                    >
+                      {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.password && touched.password ? (
+                    <p className='text-red-700'>{errors.password}</p>
+                  ) : null}
+                </div>
 
-<div className='mb-4'>
-  <label htmlFor='confirmPassword' className='block text-sm font-medium text-white'>
-    Confirm Password
-  </label>
-  <div className='flex items-center'>
-    <input
-      type={showConfirmPassword ? 'text' : 'password'}
-      id='confirmPassword'
-      name='confirmPassword'
-      className='mt-1 p-2 w-full border rounded-md'
-      placeholder='Confirm your password'
-      value={values.confirmPassword}
-      onChange={handleChange}
-      onBlur={handleBlur}
-    />
-    <button
-      type='button'
-      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-      className='ml-2 text-white focus:outline-none'
-    >
-      {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-    </button>
-  </div>
-  {errors.confirmPassword && touched.confirmPassword ? (
-    <p className='text-red-700'>{errors.confirmPassword}</p>
-  ) : null}
-</div>
+                <div className='mb-4'>
+                  <label htmlFor='confirmPassword' className='block text-sm font-medium text-white'>
+                    Confirm Password
+                  </label>
+                  <div className='flex items-center'>
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      id='confirmPassword'
+                      name='confirmPassword'
+                      className='mt-1 p-2 w-full border rounded-md'
+                      placeholder='Confirm your password'
+                      value={values.confirmPassword}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <button
+                      type='button'
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className='ml-2 text-white focus:outline-none'
+                    >
+                      {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && touched.confirmPassword ? (
+                    <p className='text-red-700'>{errors.confirmPassword}</p>
+                  ) : null}
+                </div>
                 <button
                   type='submit'
                   className='bg-green-400 w-full text-white px-8 py-2 rounded-md hover:bg-green-600 focus:outline-none'

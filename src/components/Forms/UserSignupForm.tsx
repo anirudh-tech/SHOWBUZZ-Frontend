@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useState } from 'react';
+import React, { useState } from 'react';
 import loginImage from '../../assets/loginImage2.jpg';
 import { useFormik } from 'formik';
 import { ValidationSchema } from '../../schemas/ValidationSchema';
@@ -55,6 +55,7 @@ function UserSignupForm() {
     initialValues,
     validationSchema: ValidationSchema,
     onSubmit: async (values, action) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...restValues } = values
       const response = await dispatch(userSignup(restValues))
       console.log(response, 'response ----')
@@ -71,9 +72,9 @@ function UserSignupForm() {
   const googleSignIn = async (response: string | any, status: boolean) => {
     if (status) {
       try {
-        let credentials: CustomJwtPayload = jwtDecode(response.credential);
+        const credentials: CustomJwtPayload = jwtDecode(response.credential);
         console.log(credentials, "value")
-        let userValues: UserValues = {
+        const userValues: UserValues = {
           username: credentials.name,
           email: credentials.email,
         }
@@ -81,7 +82,7 @@ function UserSignupForm() {
         await dispatch(userSignup(userValues));
         navigate('/')
 
-      } catch (error: any) {
+      } catch (error: any | { message?: string; }) {
         toast.error(error.message);
       }
     }

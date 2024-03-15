@@ -40,5 +40,13 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
     } catch (error:any) {
         throw new Error(error?.message);
     }
+})
 
+export const logout = createAsyncThunk("user/logout", async () => {
+    try {
+        const response = await axios.get(`${baseUrl}/auth/logout`,{withCredentials: true});
+        return response
+    } catch (error: any) {
+        throw new Error(error.message)
+    }
 })

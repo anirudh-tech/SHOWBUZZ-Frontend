@@ -2,15 +2,15 @@ import React from 'react'
 import CardImage from '../../assets/Rectangle 213.png'
 import { AiOutlineHeart } from 'react-icons/ai'
 
-interface  Props {
-    image: string,
-    title: string,
-    genre: string
-}
+// interface  Props {
+//     image: string,
+//     title: string,
+//     genre: string
+// }
 function MovieCard() {
   return (
-    <div className=" relative rounded-lg my-6 shadow-md overflow-hidden ">
-      <img src={CardImage} className="w-full h-full object-cover" />
+    <div className="relative rounded-lg my-6 shadow-xl overflow-hidden">
+      <img src={CardImage} className="w-full h-full object-cover"/>
       <div className="absolute bottom-0 rounded-b-lg w-full bg-white opacity-90 h-20">
 
       </div>
@@ -24,5 +24,4 @@ function MovieCard() {
     </div>
   )
 }
-
 export default MovieCard
