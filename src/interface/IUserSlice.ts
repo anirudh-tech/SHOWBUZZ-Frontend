@@ -13,7 +13,7 @@ export interface UserState {
   }
 
 export interface IUserSelector {
-  user:UserState,
+  user: UserState,
   loading: boolean,
   error: null | string
 }

@@ -25,6 +25,9 @@ import AdminTheatreMovies from "./pages/Admin-Pages/AdminTheatreMovies";
 import AdminAddMovies from "./pages/Admin-Pages/AdminAddMovies";
 import UserTheatreMovies from "./pages/User-Pages/UserTheatreMovies";
 import AdminSettings from "./pages/Admin-Pages/AdminSettings";
+import UserTicketBooking from "./pages/User-Pages/UserTicketBooking";
+import TheatreMovies from "./pages/Theatre-Pages/TheatreMovies";
+import TheatreSelectMovies from "./pages/Theatre-Pages/TheatreSelectMovies";
 
 
 
@@ -73,7 +76,7 @@ function App() {
           <Route path="/login" element={!user ? <Login /> : <Navigate to={'/userHome'} />} />
           <Route path='/userHome' element={user ? <UserHome /> : <Navigate to={'/login'} />} />
           <Route path='/userTheatreMovies' element={user ? <UserTheatreMovies /> : <Navigate to={'/login'} />} />
-          <Route path='/selectTheatre/:id' element={user ? <UserTheatreMovies /> : <Navigate to={'/login'} />} />
+          <Route path='/selectTheatre/:id' element={user ? <UserTicketBooking /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={<UserSettings />} />
         </Routes>
@@ -93,6 +96,8 @@ function App() {
           <Route path="/login" element={<Navigate to="/theatre/dashboard" />} />
           <Route path='/theatre/dashboard' element={user ? <TheatreHome /> : <Navigate to={'/'} />} />
           <Route path="/theatre/settings" element={<TheatreProtectedRoute element={<TheatreSettings />} />} />
+          <Route path="/theatre/movies" element={<TheatreProtectedRoute element={<TheatreMovies />} />} />
+          <Route path="/theatre/selectMovies" element={<TheatreProtectedRoute element={<TheatreSelectMovies />} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </>

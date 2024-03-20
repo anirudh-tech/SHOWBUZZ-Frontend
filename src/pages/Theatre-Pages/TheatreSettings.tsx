@@ -17,8 +17,6 @@ function TheatreSettings() {
         navigate("/login");
     };
 
-
-
     return (
         <div className='h-full bg-gray-900'>
             <div className=''>

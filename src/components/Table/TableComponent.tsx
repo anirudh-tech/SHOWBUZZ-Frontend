@@ -14,7 +14,7 @@ interface IProps {
 
 const TableComponent = ({ data, tableHead }: IProps) => {
     return (
-        <TableContainer className='mt-4 m-14 ' component={Paper}>
+        <TableContainer className='flex justify-center ms-8 mt-8' component={Paper} style={{ width: '95%' }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow className='bg-gradient-to-l from-gray-700 to-gray-950 shadow-black'>

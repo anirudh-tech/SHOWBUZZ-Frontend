@@ -3,8 +3,8 @@ import { commonRequest } from "../config/api";
 import { config } from "../config/configuration";
 
 const useFetchData = (url: string) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
 
   useEffect(() => {
@@ -13,6 +13,7 @@ const useFetchData = (url: string) => {
         const response = await commonRequest("get",url,config)
         console.log(response,'respones')
         if(response.data.success) { 
+          setLoading(false);
           setData(response.data.data)
         }
       }

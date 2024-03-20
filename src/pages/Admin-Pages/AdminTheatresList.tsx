@@ -1,18 +1,25 @@
 import React from 'react'
 import TableComponent from '../../components/Table/TableComponent';
+import useFetchData from '../../hooks/FetchData';
+import { ITheatre } from '../../interface/ITheatreMovie';
 
 const AdminTheatresList = () => {
+    const { data: theatres } = useFetchData(`/theatre/listTheatres`);
+    const filteredTheatresData = theatres?.map((theatre: ITheatre) => ({
+      id: theatre._id,
+      name: theatre.username,
+      totalAmountPaid: theatre.totalAmountPaid,
+      dateOfJoining: theatre.createdAt
+  }));
+
+  console.log(filteredTheatresData,'filteredTheatresData====');
+  
     const tableHead = ['Id', 'Theatre name', 'Total Amount Paid', 'Date Of Joining'];
-    const rows = [
-      { name: 'Row 1', calories: 100, fat: 10, carbs: 20},
-      { name: 'Row 2', calories: 150, fat: 15, carbs: 25},
-      // Add more rows as needed
-    ];
     return (
       <>
       <h1 className='text-white text-3xl ms-14  font-roboto font-bold mt-4'>THEATRES LIST</h1>
       <div className='w-full flex justify-center'>
-        <TableComponent data={rows} tableHead={tableHead}/>
+        <TableComponent data={filteredTheatresData} tableHead={tableHead}/>
       </div>
       </>
     )

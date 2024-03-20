@@ -23,6 +23,7 @@ function Otp({ userData }: { userData: TempData }) {
     const [otp3, setOtp3] = useState<string>("");
     const [otp4, setOtp4] = useState<string>("");
     const [countdown, setCountdown] = useState<number>(60)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [focusedInput, setFocusedInput] = useState<number>(0);
     const [showResend, setShowResend] = useState<boolean>(true);
 
@@ -51,7 +52,6 @@ function Otp({ userData }: { userData: TempData }) {
     }, [])
 
     const handleOtpChange = (index: number, value: string) => {
-
         switch (index) {
             case 1:
                 setOtp1(value);

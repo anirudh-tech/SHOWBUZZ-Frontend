@@ -9,4 +9,16 @@ export interface IMovie {
   banner: string
   cast: string;
   type: string;
+  dateOfRelease: Date;
+}
+
+export interface ITheatre {
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  selectedMovies: string[];
+  availableSeats: string;
+  totalAmountPaid: number;
+  createdAt: Date;
 }

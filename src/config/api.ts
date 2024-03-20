@@ -38,8 +38,8 @@ export const commonRequest = async (
   const requestConfig = {
     method,
     url: route,
-    data:body,
     headers: config,
+    data:body,
   };
   try {
     const response = await instance(requestConfig);
