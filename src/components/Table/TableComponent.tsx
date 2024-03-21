@@ -31,7 +31,7 @@ const TableComponent = ({ data, tableHead }: IProps) => {
                     {data.map((row: { name: string, calories: number, fat: number, carbs: number, protein: number }
                         , index: number) => (
                         <TableRow
-                            key={row.name}
+                            key={index}
                             className={clsx(index % 2 === 0 ? '' : 'bg-violet-200', 'text-white')}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >

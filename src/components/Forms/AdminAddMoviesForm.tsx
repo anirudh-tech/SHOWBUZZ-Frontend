@@ -69,7 +69,8 @@ const AdminAddMoviesForm = () => {
   })
   return (
     <>
-      {isLoading ? (
+      {
+      isLoading ? (
         <div className='absolute inset-0 bg-black/60 w-full h-full flex justify-center'>
           <div className='flex flex-col justify-center'>
             <div className='flex justify-center'>

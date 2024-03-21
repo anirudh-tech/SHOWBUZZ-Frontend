@@ -48,7 +48,6 @@ function UserSignupForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
-  console.log(tempData);
 
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
