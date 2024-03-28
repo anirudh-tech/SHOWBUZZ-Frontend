@@ -10,6 +10,8 @@ interface Props {
   movies: IMovie[];
 }
 const TheatreMovieCard = ({movies}: Props) => {
+  console.log(movies,'movies from card');
+  
   const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   return (
     <div className='grid xl:grid-cols-5 sm:grid-cols-3 grid-cols-1 gap-5 px-20 mt-6'>

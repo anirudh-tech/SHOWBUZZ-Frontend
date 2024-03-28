@@ -11,7 +11,7 @@ export const userSignup = createAsyncThunk('user/userSignup', async (userCredent
         console.log("reached in userSignup reducer")
         const {data} = await axios.post(`${baseUrl}/auth/signup`,userCredentials,config)
         return data.user
-   }catch(err : any){
+    }catch(err : any){
     const axiosError = err as AxiosError<ApiError>;
         return handleError(axiosError, rejectWithValue);
    }

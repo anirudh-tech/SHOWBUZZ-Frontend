@@ -1,6 +1,6 @@
 import useFetchData from '../../hooks/FetchData';
 import TableComponent from '../../components/Table/TableComponent';
-import { IMovie } from '../../interface/ITheatreMovie';
+import { IMovie, IProps } from '../../interface/ITheatreMovie';
 import { RiEyeLine } from 'react-icons/ri';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -8,7 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import BeatLoader from 'react-spinners/BeatLoader';
 import dayjs from 'dayjs';
@@ -17,25 +17,33 @@ import { Toaster, toast } from 'react-hot-toast';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-// import { useDispatch } from 'react-redux';
-// import { AppDispatch } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
 import { useFormik } from 'formik';
 import { selectMoviesValidation } from '../../schemas/selectMovieValidation';
+import { selectMovies } from '../../redux/actions/adminActions';
+import { IAdminSelector, IUserSelector } from '../../interface/IUserSlice';
+import { makeErrorDisable } from '../../redux/reducers/admin/adminSlice';
 
 
 const selectedLanguages: string[] = []
-interface SelectedTime{
+interface SelectedTime {
   hour: number;
   min: number;
 }
-interface SelectedDate{
-
+interface SelectedDate {
+  day: number;
+  month: number;
+  year: number;
 }
 const initialValues = {
-  selectedDates: [] as SelectedTime[],
-  selectedTimes: []  as SelectedDate[],
+  selectedDates: [] as SelectedDate[],
+  selectedTimes: [] as SelectedTime[],
   selectedLanguages: selectedLanguages,
   selectedFormats: [] as string[],
+  selectedScreens: [] as string[],
+  movieId: "",
+  theatreId: "",
 }
 
 const TheatreSelectMovies = () => {
@@ -44,10 +52,35 @@ const TheatreSelectMovies = () => {
   const [clock, setClock] = useState(false)
   const [selectedMovieId, setSelectedMovieId] = useState<string | null>(null);
   const [selectedTimes, setSelectedTimes] = useState<dayjs.Dayjs[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([]);
+  const id = useSelector((state: IUserSelector) => state.user?.user?._id);
   const { data: movies } = useFetchData('/movie/listTheatreMovies');
   const tableHead = ['Id', 'Movie name', 'Date Of Release', 'View'];
-  // const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
+  const { error } = useSelector((state: IAdminSelector) => state.admin);
+  const screens: IProps[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
+  console.log(screens, 'screens--==')
+
+
+  useEffect(() => {
+    if (!open) {
+      setClock(false);
+      setSelectedTimes([]);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    console.log(error, '-error')
+
+
+    if (error) {
+      toast.error(error)
+      setTimeout(() => {
+        dispatch(makeErrorDisable());
+      }, 5000);
+    }
+  }, [error]);
 
   const currentDate = dayjs()
 
@@ -55,32 +88,17 @@ const TheatreSelectMovies = () => {
     selectedMovieId ? `/movie/findMovie/${selectedMovieId}` : ''
   );
 
-  const { values,  handleChange, setFieldValue, handleSubmit } = useFormik({
+  const { values, touched, handleChange, setFieldValue, handleSubmit, errors } = useFormik({
     initialValues,
-    // validationSchema: selectMoviesValidation,
-    
+    validationSchema: selectMoviesValidation,
     onSubmit: async (values, action) => {
-      try {
-        console.log(selectedDates,'-----')
-        // console.log(values.selectedDates,"==>")
-        // values.selectedDates = selectedTimes.forEach(time => {
-        //   selectedTimes.push({ hour: time.get('hour'), min: time.get('minute') });
-        // });
-        const dates = []
-        selectedDates.forEach(time => {
-          dates.push(time);
-        });
-        values.selectedDates = dates
-
-        const times: SelectedTime[] = []
-        selectedTimes.forEach(time => {
-          times.push({ hour: time.get('hour'), min: time.get('minute') });
-        });
-        values.selectedTimes = times
-        // selectMoviesValidation.validate(values)
-        console.log(values,action,'=====>')
-      } catch (error) {
-        console.log(error);
+      console.log(movieData, '--movie Data')
+      values.movieId = movieData[0]._id;
+      values.theatreId = id
+      const response = await dispatch(selectMovies(values))
+      if (response) {
+        action.resetForm()
+        setOpen(false)
       }
     }
   })
@@ -89,14 +107,30 @@ const TheatreSelectMovies = () => {
     if (selectedTimes.some((selectedTime) => selectedTime.isSame(time))) {
       toast.error('Same time cannot be selected multiple times.');
     } else {
-      setSelectedTimes((prevTimes) => [...prevTimes, time]);
+      setSelectedTimes((prevTimes) => {
+        const newTimes = [...prevTimes, time];
+        const formattedTimes: SelectedTime[] = newTimes.map(time => ({
+          hour: time.get('hour'),
+          min: time.get('minute')
+        }));
+        setFieldValue('selectedTimes', formattedTimes);
+        return newTimes;
+      });
     }
   };
-  
-    const handleDateChange = (date: any) => {
-      setSelectedDates((prevTimes) => [...prevTimes, date]);
-      setClock(true)
-    }
+
+  const handleDateChange = (dates: any) => {
+    const formattedDates: SelectedDate[] = dates.map((date: any) => ({
+      day: date.get('date'),
+      month: date.get('month'),
+      year: date.get('year')
+    }));
+
+    setSelectedDates(dates);
+    setFieldValue('selectedDates', formattedDates);
+    setClock(true);
+  };
+
 
 
   const handleDelete = (index: number) => {
@@ -121,11 +155,11 @@ const TheatreSelectMovies = () => {
     view: <RiEyeLine className='cursor-pointer' onClick={() => HandleClick(movie._id)} />
   }))
 
-
   return (
     <>
-    <TableComponent data={filteredMovies} tableHead={tableHead} />
+      <TableComponent data={filteredMovies} tableHead={tableHead} />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Toaster />
         <DemoContainer components={['SingleInputDateRangeField', 'StaticTimePicker']}>
           {
             isLoading ? (
@@ -162,9 +196,18 @@ const TheatreSelectMovies = () => {
                                 slots={{ field: SingleInputDateRangeField }}
                                 minDate={currentDate}
                                 name="allowedRange"
-                                value={[values.selectedDates[0] ?? null, values.selectedDates[1] ?? null]}
-                                onChange={(value) => setFieldValue('selectedDates', value)}
+                              // value={[values.selectedDates[0] ?? null, values.selectedDates[1] ?? null]}
+                              // onChange={(value) => setFieldValue('selectedDates', value)}
                               />
+                              {errors.selectedDates && touched.selectedDates && (
+                                typeof errors.selectedDates === 'string' ? (
+                                  <p className='text-red-700'>{errors.selectedDates}</p>
+                                ) : (
+                                  Object.values(errors.selectedDates).map((error, index) => (
+                                    <p key={index} className='text-red-700'>{error}</p>
+                                  ))
+                                )
+                              )}
                               <div>
                                 <h1 className='text-white'>Available Languages :</h1>
                                 <FormGroup>
@@ -184,6 +227,7 @@ const TheatreSelectMovies = () => {
                                     </div>
                                   ))}
                                 </FormGroup>
+                                {errors.selectedLanguages && touched.selectedLanguages ? (<p className='text-red-700'>{errors.selectedLanguages}</p>) : null}
                               </div>
                               <div>
                                 <h1 className='text-white'>Select Format :</h1>
@@ -204,6 +248,31 @@ const TheatreSelectMovies = () => {
                                       />
                                     </div>
                                   ))}
+                                  {errors.selectedFormats && touched.selectedFormats ? (<p className='text-red-700'>{errors.selectedFormats}</p>) : null}
+                                </FormGroup>
+                              </div>
+                              <div>
+                                <h1 className='text-white'>Select Screen :</h1>
+                                <FormGroup>
+                                  {screens?.map(( screen: IProps , index: number) => (
+                                    <div key={index}>
+                                      <FormControlLabel
+                                        className='text-white'
+                                        control={
+                                          <Checkbox
+                                            checked={values.selectedScreens.includes(screen?.screenName)} // You need to provide a boolean value here
+                                            onChange={handleChange}
+                                            name='selectedScreens'
+                                            value={screen.screenName}
+                                          />
+                                        }
+                                        label={screen.screenName}
+                                      />
+                                    </div>
+                                  ))}
+                                  {errors.selectedScreens && touched.selectedScreens ? (
+                                    <p className='text-red-700'>{errors.selectedScreens}</p>
+                                  ) : null}
                                 </FormGroup>
                               </div>
                             </div>
@@ -216,6 +285,15 @@ const TheatreSelectMovies = () => {
                                   className="border rounded-md p-2"
                                   onAccept={handleTimeChange}
                                 />
+                                {errors.selectedTimes && touched.selectedTimes && (
+                                  typeof errors.selectedTimes === 'string' ? (
+                                    <p className='text-red-700'>{errors.selectedTimes}</p>
+                                  ) : (
+                                    Object.values(errors.selectedTimes).map((error, index) => (
+                                      <p key={index} className='text-red-700'>{error}</p>
+                                    ))
+                                  )
+                                )}
                               </div>
                             }
                             <div>

@@ -23,7 +23,7 @@ export const handleError = (
       
       return rejectWithValue(error.response.data.message);
     } else {
-      console.log(error,'------------');
+      console.log(error.response?.data.errors[0].message,'------------');
       return rejectWithValue(error.response?.data.errors[0].message);
     }
   };

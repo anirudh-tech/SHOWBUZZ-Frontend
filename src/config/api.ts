@@ -10,9 +10,9 @@ const instance = axios.create({
 export const reduxRequest = async (
   method: string,
   route: any,
-  body: any,
   config: any,
-  rejectWithValue: any
+  rejectWithValue: any,
+  body?: any,
 ) => {
   const requestConfig = {
     method,
@@ -22,7 +22,7 @@ export const reduxRequest = async (
   };
   try {
     const response = await instance(requestConfig);
-    return response;
+    return response.data.data;
   } catch (error: any) {
     const axiosError = error as AxiosError<ApiError>;
     return handleError(axiosError, rejectWithValue);
@@ -42,7 +42,8 @@ export const commonRequest = async (
     data:body,
   };
   try {
-    const response = await instance(requestConfig);
+
+    const response = await instance({...requestConfig});
     return response;
   } catch (error: any) {
     return error

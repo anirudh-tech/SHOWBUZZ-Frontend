@@ -57,7 +57,8 @@ const AdminAddMoviesForm = () => {
         image: image,
         banner: banner,
         cast: values.cast,
-        type: "theatre"
+        type: "theatre",
+        dateOfRelease: new Date()
       };
       console.log(values, action);
       const response = await dispatch(addTheatreMovie(movieData))

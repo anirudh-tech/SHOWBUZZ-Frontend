@@ -13,3 +13,31 @@ export const addTheatreMovie = createAsyncThunk('movie/addTheatreMovie', async(f
     rejectWithValue
   )
 })
+
+export const selectMovies = createAsyncThunk('theatre/selectMovies', async(formData:any , {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/theatre/selectMovies`,
+    config,
+    rejectWithValue,
+    formData,
+  )
+})
+
+export const addScreen = createAsyncThunk('theatre/addScreens', async(inputValue: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/theatre/addScreen`,
+    config,
+    rejectWithValue,
+    inputValue,
+  )
+})
+export const listTheatre = createAsyncThunk('theatre/theatreDetails', async(id: string, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/theatre/theatreDetails/${id}`,
+    config,
+    rejectWithValue
+  )
+})

@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import UserSignup from "./pages/User-Pages/UserSignup"
 import { useDispatch, useSelector } from "react-redux";
-import { IUserSelector } from "./interface/IUserSlice";
+import { IAdminSelector, IUserSelector } from "./interface/IUserSlice";
 import { makeErrorDisable } from './redux/reducers/user/userSlice';
 import { Toaster } from "react-hot-toast";
 // import TheatreSignup from "./pages/Theatre-Pages/TheatreSignup";
@@ -28,6 +28,7 @@ import AdminSettings from "./pages/Admin-Pages/AdminSettings";
 import UserTicketBooking from "./pages/User-Pages/UserTicketBooking";
 import TheatreMovies from "./pages/Theatre-Pages/TheatreMovies";
 import TheatreSelectMovies from "./pages/Theatre-Pages/TheatreSelectMovies";
+import { listTheatre } from "./redux/actions/adminActions";
 
 
 
@@ -36,10 +37,15 @@ function App() {
   const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   const dispatch = useDispatch<AppDispatch>();
   console.log('user === > ', user, role)
-
+  const id = useSelector((state: IUserSelector) => state.user?.user?._id);
+  console.log(id,'id from app tsx')
+  const admin: any = useSelector((state: IAdminSelector) => state.admin);
+  console.log(admin,'screens--==')
+  
   useEffect(() => {
+    dispatch(listTheatre(id))
     dispatch(fetchUser());
-  }, []);
+  }, [id]);
 
   useEffect(() => {
 

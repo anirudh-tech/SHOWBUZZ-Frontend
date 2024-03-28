@@ -5,7 +5,7 @@ import { config } from "../config/configuration";
 const useFetchData = (url: string) => {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState(null);
+  // const [error, setError] = useState(null);
 
 
   useEffect(() => {
@@ -13,9 +13,9 @@ const useFetchData = (url: string) => {
         setLoading(true);
         const response = await commonRequest("get",url,config)
         console.log(response,'respones')
-        if(response.data.success) { 
+        if(response?.data?.success) { 
           setLoading(false);
-          setData(response.data.data)
+          setData(response?.data?.data)
         }
       }
 
@@ -29,7 +29,7 @@ const useFetchData = (url: string) => {
       
   },[url])
 
-  return {data, loading, error }
+  return {data, loading}
 }
 
 export default useFetchData;
