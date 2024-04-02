@@ -9,7 +9,7 @@ const instance = axios.create({
 
 export const reduxRequest = async (
   method: string,
-  route: any,
+  route: string,
   config: any,
   rejectWithValue: any,
   body?: any,

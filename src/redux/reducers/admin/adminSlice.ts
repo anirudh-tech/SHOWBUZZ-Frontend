@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IMovie, ITheatre } from "../../../interface/ITheatreMovie";
 import { addScreen, addTheatreMovie, listTheatre, selectMovies } from "../../actions/adminActions";
 
-const adminSlice = createSlice({
+const adminSlice : any = createSlice({
   name: "adminSlice",
   initialState: {
     theatreDetails: null as ITheatre | null,
@@ -14,6 +14,9 @@ const adminSlice = createSlice({
     makeErrorDisable: (state) => {
       state.error = null;
     },
+    setTheatreDetails : (state,action) => {
+      state.theatreDetails = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -50,5 +53,5 @@ const adminSlice = createSlice({
   }
 });
 
-export const {makeErrorDisable} = adminSlice.actions;
+export const {makeErrorDisable,setTheatreDetails} = adminSlice.actions;
 export default adminSlice.reducer

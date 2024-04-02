@@ -9,7 +9,7 @@ export type AppDispatch = typeof store.dispatch;
 
 const reducer = combineReducers({
     user: userReducer,
-    admin:adminReducer
+    admin: adminReducer
 })
 
 export const store = configureStore({

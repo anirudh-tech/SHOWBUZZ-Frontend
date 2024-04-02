@@ -1,6 +1,6 @@
 import useFetchData from '../../hooks/FetchData';
 import TableComponent from '../../components/Table/TableComponent';
-import { IMovie, IProps } from '../../interface/ITheatreMovie';
+import { IMovie, IScreen } from '../../interface/ITheatreMovie';
 import { RiEyeLine } from 'react-icons/ri';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { useFormik } from 'formik';
 import { selectMoviesValidation } from '../../schemas/selectMovieValidation';
-import { selectMovies } from '../../redux/actions/adminActions';
+import { listTheatre, selectMovies } from '../../redux/actions/adminActions';
 import { IAdminSelector, IUserSelector } from '../../interface/IUserSlice';
 import { makeErrorDisable } from '../../redux/reducers/admin/adminSlice';
 
@@ -59,7 +59,8 @@ const TheatreSelectMovies = () => {
   const tableHead = ['Id', 'Movie name', 'Date Of Release', 'View'];
   const dispatch = useDispatch<AppDispatch>();
   const { error } = useSelector((state: IAdminSelector) => state.admin);
-  const screens: IProps[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
+  const screens: IScreen[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
+  const {theatreDetails} = useSelector((state: IAdminSelector) => state.admin);
   console.log(screens, 'screens--==')
 
 
@@ -96,6 +97,11 @@ const TheatreSelectMovies = () => {
       values.movieId = movieData[0]._id;
       values.theatreId = id
       const response = await dispatch(selectMovies(values))
+      console.log(response,theatreDetails,'---- response and theatre details ');
+      
+      // dispatch(setTheatreDetails(response.payload))
+      dispatch(listTheatre(id))
+      console.log(theatreDetails,'==theatre details')
       if (response) {
         action.resetForm()
         setOpen(false)
@@ -254,7 +260,7 @@ const TheatreSelectMovies = () => {
                               <div>
                                 <h1 className='text-white'>Select Screen :</h1>
                                 <FormGroup>
-                                  {screens?.map(( screen: IProps , index: number) => (
+                                  {screens?.map(( screen: IScreen , index: number) => (
                                     <div key={index}>
                                       <FormControlLabel
                                         className='text-white'

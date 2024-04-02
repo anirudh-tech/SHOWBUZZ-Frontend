@@ -13,12 +13,17 @@ export interface IMovie {
 }
 
 export interface IProps {
-  screenName: string;
   selectedDateTimes?: IDate[];
   selectedLanguages?: string[];
   selectedFormats?: string[];
-  movieId?: string ;
+  movieId?: IMovie;
   theatreId?: string;
+}
+
+export interface IScreen {
+  screenName: string;
+  availableSeats: string ,
+  selectedMovies: IProps[]
 }
 
 export interface ITheatre {
@@ -26,7 +31,7 @@ export interface ITheatre {
   username: string;
   email: string;
   password: string;
-  screens: IProps[];
+  screens: IScreen[];
   availableSeats: string;
   totalAmountPaid: number;
   createdAt: Date;

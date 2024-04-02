@@ -16,22 +16,22 @@ import fetchData from '../../utils/fetchData';
 import RightDrawer from '../../components/Drawer/RightDrawer';
 import { addScreen } from '../../redux/actions/adminActions';
 import { IAdminSelector, IUserSelector } from '../../interface/IUserSlice';
-import { IProps } from '../../interface/ITheatreMovie';
+import {  IScreen } from '../../interface/ITheatreMovie';
 
 function TheatreSettings() {
     const [screen, setScreen] = useState<boolean>(false)
-    const [screenNames, setScreenNames] = useState([] as IProps[])
+    const [screenNames, setScreenNames] = useState([] as IScreen[])
     const [input, setInput] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState('')
     const [inputError, setInputError] = useState('');
-    const screens: IProps[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
+    const screens: IScreen[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const id = useSelector((state: IUserSelector) => state.user?.user?._id);
 
     useEffect(() => {
         const fetchingData = async () => {
-            const { data } = await fetchData(`/theatre/theatreDetails/${id}`);
+            const { data } : any = await fetchData(`/theatre/theatreDetails/${id}`);
             console.log(data[0].screens, 'dattttaaaaaa')
         }
         fetchingData()

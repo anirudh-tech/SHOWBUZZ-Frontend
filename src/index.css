@@ -8,4 +8,11 @@
   body {
     @apply bg-gradient-to-l from-gray-800 to-gray-950 ;
   }
+
+  .swiper-button-next{
+    @apply text-gray-400
+  }
+  .swiper-button-prev{
+    @apply text-gray-400
+  }
   

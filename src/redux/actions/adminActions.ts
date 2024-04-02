@@ -33,7 +33,7 @@ export const addScreen = createAsyncThunk('theatre/addScreens', async(inputValue
     inputValue,
   )
 })
-export const listTheatre = createAsyncThunk('theatre/theatreDetails', async(id: string, {rejectWithValue}) => {
+export const listTheatre = createAsyncThunk('theatre/theatreDetails', async(id: string | null, {rejectWithValue}) => {
   return reduxRequest(
     "get",
     `/theatre/theatreDetails/${id}`,

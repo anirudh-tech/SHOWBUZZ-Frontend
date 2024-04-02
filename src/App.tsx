@@ -36,12 +36,8 @@ function App() {
   const { user, error, } = useSelector((state: IUserSelector) => state.user);
   const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   const dispatch = useDispatch<AppDispatch>();
-  console.log('user === > ', user, role)
   const id = useSelector((state: IUserSelector) => state.user?.user?._id);
-  console.log(id,'id from app tsx')
-  const admin: any = useSelector((state: IAdminSelector) => state.admin);
-  console.log(admin,'screens--==')
-  
+
   useEffect(() => {
     dispatch(listTheatre(id))
     dispatch(fetchUser());
