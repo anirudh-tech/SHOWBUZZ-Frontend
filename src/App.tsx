@@ -29,6 +29,7 @@ import UserTicketBooking from "./pages/User-Pages/UserTicketBooking";
 import TheatreMovies from "./pages/Theatre-Pages/TheatreMovies";
 import TheatreSelectMovies from "./pages/Theatre-Pages/TheatreSelectMovies";
 import { listTheatre } from "./redux/actions/adminActions";
+import TheatreSeatLayout from "./pages/Theatre-Pages/TheatreSeatLayout";
 
 
 
@@ -100,6 +101,7 @@ function App() {
           <Route path="/theatre/settings" element={<TheatreProtectedRoute element={<TheatreSettings />} />} />
           <Route path="/theatre/movies" element={<TheatreProtectedRoute element={<TheatreMovies />} />} />
           <Route path="/theatre/selectMovies" element={<TheatreProtectedRoute element={<TheatreSelectMovies />} />} />
+          <Route path="/theatre/seatLayout" element={<TheatreProtectedRoute element={<TheatreSeatLayout />} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </>

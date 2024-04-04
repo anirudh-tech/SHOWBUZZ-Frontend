@@ -13,7 +13,7 @@ export interface IMovie {
 }
 
 export interface IProps {
-  selectedDateTimes?: IDate[];
+  selectedDateTimes: IDate[];
   selectedLanguages?: string[];
   selectedFormats?: string[];
   movieId?: IMovie;

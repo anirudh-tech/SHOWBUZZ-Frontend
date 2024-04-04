@@ -8,46 +8,50 @@ import { BiExit } from 'react-icons/bi';
 import { MdAirlineSeatReclineNormal } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { CgProfile } from 'react-icons/cg';
-// import Modal from '../../components/Modal/Modal';
-// import useFetchData from '../../hooks/FetchData';
-// import { IUserSelector } from '../../interface/IUserSlice';
-// import postData from '../../utils/postData';
-import fetchData from '../../utils/fetchData';
 import RightDrawer from '../../components/Drawer/RightDrawer';
-import { addScreen } from '../../redux/actions/adminActions';
+import { addScreen, listTheatre } from '../../redux/actions/adminActions';
 import { IAdminSelector, IUserSelector } from '../../interface/IUserSlice';
 import {  IScreen } from '../../interface/ITheatreMovie';
 
 function TheatreSettings() {
     const [screen, setScreen] = useState<boolean>(false)
-    const [screenNames, setScreenNames] = useState([] as IScreen[])
+    const [screenNames, setScreenNames] = useState<any>([])
     const [input, setInput] = useState<boolean>(false)
     const [inputValue, setInputValue] = useState('')
     const [inputError, setInputError] = useState('');
-    const screens: IScreen[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
+    const screens: IScreen[]= useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const id = useSelector((state: IUserSelector) => state.user?.user?._id);
 
     useEffect(() => {
-        const fetchingData = async () => {
-            const { data } : any = await fetchData(`/theatre/theatreDetails/${id}`);
-            console.log(data[0].screens, 'dattttaaaaaa')
+        async function getData(): Promise<void>{
+            await dispatch(listTheatre(id))
         }
-        fetchingData()
+        getData()
+        console.log(screens,'screens==========>')
         setScreenNames(screens)
-        console.log(screenNames, screens, '-screenNames')
-    }, [screens])
+        console.log(screenNames,'screenNames====>')
+    },[screens])
 
-    useEffect(() => {
-        const fetchingData = async () => {
-            const { data } = await fetchData(`/theatre/theatreDetails/${id}`);
-            console.log(data[0].screens, 'dattttaaaaaa')
-            setScreenNames(data[0].screens)
-        }
-        fetchingData()
-        console.log(screenNames, screens, '-screenNames')
-    }, [inputValue])
+    // useEffect(() => {
+    //     const fetchingData = async () => {
+    //         const { data } : any = await fetchData(`/theatre/theatreDetails/${id}`);
+    //     }
+    //     fetchingData()
+    //     setScreenNames(screens.screenName)
+    //     console.log(screenNames, screens, '-screenNames')
+    // }, [screens])
+
+    // useEffect(() => {
+    //     const fetchingData = async () => {
+    //         const { data } = await fetchData(`/theatre/theatreDetails/${id}`);
+    //         if(data) {
+    //             setScreenNames(data[0]?.screens)
+    //         }
+    //     }
+    //     fetchingData()
+    // }, [inputValue])
 
     const handleLogout = () => {
         dispatch(logout());
@@ -74,6 +78,10 @@ function TheatreSettings() {
         }, 2000)
     };
 
+    const handleSeatSelect = () => {
+        navigate('/theatre/seatLayout')
+    }
+
 
     return (
         <div className=''>
@@ -89,7 +97,7 @@ function TheatreSettings() {
                                         <>
                                             <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>ADDED SCREENS</h1>
                                             <div className='flex flex-col gap-6 mt-5 justify-center items-center '>
-                                                {screenNames.map((screen, index) => (
+                                                {screenNames.map((screen: IScreen, index:number) => (
                                                     <h1 key={index} className="text-white text-center bg-slate-500 rounded-md w-1/2 py-3">{screen.screenName}</h1>
                                                 ))}
                                             </div>
@@ -131,7 +139,7 @@ function TheatreSettings() {
                     <RiLockPasswordLine className='text-white mt-1' />
                     <h1 className='font-roboto text-white '>Change Password</h1>
                 </div>
-                <div className='h-16 p-4 w-1/2   bg-gray-800 flex text-lg gap-3'>
+                <div onClick={() => handleSeatSelect()} className='h-16 p-4 w-1/2 cursor-pointer  bg-gray-800 flex text-lg gap-3'>
                     <MdAirlineSeatReclineNormal className='text-white mt-1' />
                     <h1 className='font-roboto text-white '>Choose Seat Layout</h1>
                 </div>

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IMovie, ITheatre } from "../../../interface/ITheatreMovie";
-import { addScreen, addTheatreMovie, listTheatre, selectMovies } from "../../actions/adminActions";
+import { addScreen, addTheatreMovie, listAllTheatre, listTheatre, selectMovies } from "../../actions/adminActions";
 
 const adminSlice : any = createSlice({
   name: "adminSlice",
   initialState: {
+    theatres: null as ITheatre[] | null,
     theatreDetails: null as ITheatre | null,
     theatre: null as IMovie | null,
     error: null as string | null,
@@ -49,6 +50,14 @@ const adminSlice : any = createSlice({
     .addCase(listTheatre.fulfilled, (state, action) => {
       state.loading = false;
       state.theatreDetails = action.payload as ITheatre;
+    })
+    .addCase(listAllTheatre.fulfilled,(state, action) => {
+      state.theatres =  action.payload as ITheatre[];
+      state.loading = false;
+    })
+    .addCase(listAllTheatre.rejected,(state, action) => {
+      state.error =  action.payload as string;
+      state.loading = false;
     })
   }
 });

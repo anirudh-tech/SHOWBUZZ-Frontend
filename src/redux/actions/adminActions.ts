@@ -41,3 +41,21 @@ export const listTheatre = createAsyncThunk('theatre/theatreDetails', async(id: 
     rejectWithValue
   )
 })
+export const listAllTheatre = createAsyncThunk('theatre/AlltheatreDetails', async( _,{rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/theatre/allTheatreDetails`,
+    config,
+    rejectWithValue
+  )
+})
+
+export const setSeatLayout = createAsyncThunk('theatre/setSeatLayout', async(setSeatLayout: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/theatre/setSeatLayout`,
+    config,
+    rejectWithValue,
+    setSeatLayout
+  )
+})
