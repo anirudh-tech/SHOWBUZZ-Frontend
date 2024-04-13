@@ -1,22 +1,35 @@
-import React from 'react'
 import { IMovie } from '../../interface/ITheatreMovie';
 import { AiFillEdit, AiFillStar } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 import { IUserSelector } from '../../interface/IUserSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 
 interface Props {
   movies: IMovie[];
+  setOpen: any;
+  setMovie: any;
 }
-const TheatreMovieCard = ({movies}: Props) => {
+const TheatreMovieCard = ({movies, setOpen, setMovie}: Props) => {
+  const navigate = useNavigate();
   console.log(movies,'movies from card');
+
+  const handleClick = (movie: IMovie) => {
+    setOpen(true)
+    setMovie(movie)
+  }
+  const handleMovieClick = (id: string | undefined) => {
+    if(role == 'user') {
+        navigate(`/selectTheatre/${id}`);
+      }
+  }
   
   const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   return (
     <div className='grid xl:grid-cols-5 sm:grid-cols-3 grid-cols-1 gap-5 px-20 mt-6'>
       {movies && movies?.map((movie) => (
-        <div key={movie._id} className='mb-6 w-full h-3/5 relative'>
+        <div  onClick={() => handleMovieClick(movie._id)} key={movie._id} className='mb-6 w-full h-3/5 relative cursor-pointer'>
           <div className='w-full h-full overflow-clip rounded-t-md'>
             <img className='object-cover w-full h-full' src={movie?.image} alt="" />
           </div>
@@ -32,7 +45,7 @@ const TheatreMovieCard = ({movies}: Props) => {
             </div>
           </div>
           {
-            role === "admin" && <button className='bg-red-600 absolute top-2 right-2  p-2 rounded-md text-white hover:bg-red-900'> <AiFillEdit /> </button>
+            role === "admin" && <button onClick={() => handleClick(movie)} className='bg-red-600 absolute top-2 right-2  p-2 rounded-md text-white hover:bg-red-900'> <AiFillEdit /> </button>
           }
         </div>
       ))}

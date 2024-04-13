@@ -13,7 +13,7 @@ const RightDrawer: React.FC<RightDrawerProps> = ({ children, open, handleClose }
     <div>
       <Drawer anchor={'right'} open={open} onClose={handleClose} >
         <Box sx={{
-          width: '400px',
+          width: '600px',
         }} >
           {children}
         </Box>

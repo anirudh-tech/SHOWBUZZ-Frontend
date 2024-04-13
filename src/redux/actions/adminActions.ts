@@ -8,9 +8,18 @@ export const addTheatreMovie = createAsyncThunk('movie/addTheatreMovie', async(f
   return reduxRequest(
     "post",
     `/movie/addTheatreMovie`,
-    formData,
     config,
-    rejectWithValue
+    rejectWithValue,
+    formData
+  )
+})
+export const editTheatreMovie = createAsyncThunk('movie/editTheatreMovie', async(formData: IMovie, {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/movie/editTheatreMovie`,
+    config,
+    rejectWithValue,
+    formData
   )
 })
 
@@ -50,12 +59,12 @@ export const listAllTheatre = createAsyncThunk('theatre/AlltheatreDetails', asyn
   )
 })
 
-export const setSeatLayout = createAsyncThunk('theatre/setSeatLayout', async(setSeatLayout: any, {rejectWithValue}) => {
+export const setSeatLayout = createAsyncThunk('theatre/setSeatLayout', async(data: any, {rejectWithValue}) => {
   return reduxRequest(
     "post",
     `/theatre/setSeatLayout`,
     config,
     rejectWithValue,
-    setSeatLayout
+    data
   )
 })

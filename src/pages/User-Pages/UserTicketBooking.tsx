@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import useFetchData from '../../hooks/FetchData';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SelectDates from '../../components/Buttons/SelectDates';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { listAllTheatre } from '../../redux/actions/adminActions';
-import { IProps, IScreen, ITheatre, ITime } from '../../interface/ITheatreMovie';
-import { format, formatDate, parse } from 'date-fns';
-import { date } from 'yup';
+import { IProps, IScreen, ITheatre } from '../../interface/ITheatreMovie';
+import { format, parse } from 'date-fns';
+// import { date } from 'yup';
 
 
 const UserTicketBooking = () => {
@@ -15,8 +15,10 @@ const UserTicketBooking = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedTheatre, setSelectedTheatre] = useState<string | null>('');
   const [selectedDate, setSelectedDate] = useState<any>(new Date(currentDate.setUTCHours(0, 0, 0, 0)).toISOString())
-  const [selectedTime, setSelectedTime] = useState<any>({})
-  const dispatch = useDispatch<AppDispatch>()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedTime, setSelectedTime] = useState<any>({});
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data: movie } = useFetchData(`/movie/findMovie/${id}`);
   const { data: theatres } = useFetchData(`/theatre/listTheatresUsingMovieId/${movie[0]?._id}/${selectedDate}`);
@@ -37,10 +39,10 @@ const UserTicketBooking = () => {
     setSelectedDate(formattedDate);
   };
 
-  const handleTimeSelect = (screenTime: ITime) => {
-    if (setSelectedTime) {
-      setSelectedTime(screenTime === selectedTime ? null : screenTime);
-    }
+  const handleTimeSelect = (time: any, cost: number, theatreName: string) => {
+    console.log(time, '=====> i1')
+    setSelectedTime(time)
+    navigate('seat-selection', { state: { time, cost, theatreName, filteredScreens } });
   };
 
   const movieId = movie[0]?._id
@@ -53,43 +55,30 @@ const UserTicketBooking = () => {
 
   console.log(filteredScreens, 'screens filtered')
 
-  const filteredData = filteredScreens
-    .filter((screen: IScreen) =>
-      screen.selectedMovies.some((movie: IProps) =>
-        movie.movieId?._id === movieId &&
-        movie.selectedDateTimes.some((dateTime: any) => dateTime.date === selectedDate)
-      )
-    )
-    .map((screen: IScreen) => ({
-      screenName: screen.screenName,
-      selectedTimes: screen.selectedMovies
-        .filter((movie: IProps) => movie.movieId?._id === movieId)
-        .flatMap((movie: IProps) => movie.selectedDateTimes
-          .filter((dateTime: any) => dateTime.date === selectedDate)
-          .map((dateTime: any) => dateTime.selectedTime)
-        )
-    }));
+  // const filteredData = filteredScreens
+  //   .filter((screen: IScreen) =>
+  //     screen.selectedMovies.some((movie: IProps) =>
+  //       movie.movieId?._id === movieId &&
+  //       movie.selectedDateTimes.some((dateTime: any) => dateTime.date === selectedDate)
+  //     )
+  //   )
+  //   .map((screen: IScreen) => ({
+  //     screenName: screen.screenName,
+  //     selectedTimes: screen.selectedMovies
+  //       .filter((movie: IProps) => movie.movieId?._id === movieId)
+  //       .flatMap((movie: IProps) => movie.selectedDateTimes
+  //         .filter((dateTime: any) => dateTime.date === selectedDate)
+  //         .map((dateTime: any) => dateTime.selectedTime)
+  //       )
+  //   }));
 
-  console.log(filteredData, '------dataaaa');
-
-  // const selectedTimesArray: ITime[] = [];
-  // filteredScreensWithSelectedDateAndMovieId?.forEach(screen => {
-  //   screen.selectedMovies.forEach(movie => {
-  //     console.log('inside dateTime.date---===========', movie)
-  //     if (movie?.movieId?._id === movieId) {
-  //       movie.selectedDateTimes.forEach(dateTime => {
-  //         if (dateTime.date === selectedDate) {
-  //           selectedTimesArray.push(...dateTime.selectedTimes);
-  //         }
-  //       });
-  //     }
-  //   });
-  // });
-
-  // console.log(selectedTimesArray, 'selected Times array');
+  // console.log(filteredData, '------dataaaa');
 
   return (
     <>
+    {
+
+    }
       <h1 className='text-white font-roboto font-bold text-3xl px-10 pt-4 pb-4 border-b border-gray-700'>{movie[0]?.title}</h1>
       <div className='pt-6'>
         <div className='ps-20 pb-4'>
@@ -123,7 +112,7 @@ const UserTicketBooking = () => {
                             {movie.selectedDateTimes.map((date, index3) => (
                               date.date === selectedDate ? (
                                 date.selectedTimes.map((time, index4) => (
-                                  <span className='text-white bg-black border border-white px-3 py-2 rounded-md cursor-pointer' key={`${index1}-${index2}-${index3}-${index4}`}>
+                                  <span onClick={() => handleTimeSelect(time, screen.seatCost,theatre.username)} className='text-white bg-black border border-white px-3 py-2 rounded-md cursor-pointer' key={`${index1}-${index2}-${index3}-${index4}`}>
                                     {time.hour} : {time.min}
                                   </span>
                                 ))
@@ -136,12 +125,10 @@ const UserTicketBooking = () => {
                   ))}
                 </div>
                 <div>
-
                 </div>
               </div>
             ))
           }
-
         </div>
       </div>
     </>

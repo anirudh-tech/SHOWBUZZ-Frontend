@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiFillSetting } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,28 +11,29 @@ import { CgProfile } from 'react-icons/cg';
 import RightDrawer from '../../components/Drawer/RightDrawer';
 import { addScreen, listTheatre } from '../../redux/actions/adminActions';
 import { IAdminSelector, IUserSelector } from '../../interface/IUserSlice';
-import {  IScreen } from '../../interface/ITheatreMovie';
+import { IScreen } from '../../interface/ITheatreMovie';
+import Modal from '../../components/Modal/Modal';
 
 function TheatreSettings() {
-    const [screen, setScreen] = useState<boolean>(false)
-    const [screenNames, setScreenNames] = useState<any>([])
-    const [input, setInput] = useState<boolean>(false)
-    const [inputValue, setInputValue] = useState('')
-    const [inputError, setInputError] = useState('');
-    const screens: IScreen[]= useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
+    const [screen, setScreen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [screenNames, setScreenNames] = useState<any>([]);
+    const [input, setInput] = useState<boolean>(false);
+    const [screenInput, setScreenInput] = useState('');
+    const [moneyInput, setMoneyInput] = useState<number | string>();
+    const [screenInputError, setScreenInputError] = useState('');
+    const [moneyInputError, setMoneyInputError] = useState('');
+    const screens: IScreen[] = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const id = useSelector((state: IUserSelector) => state.user?.user?._id);
 
     useEffect(() => {
-        async function getData(): Promise<void>{
-            await dispatch(listTheatre(id))
-        }
-        getData()
-        console.log(screens,'screens==========>')
+        console.log(screens, 'screens==========>')
         setScreenNames(screens)
-        console.log(screenNames,'screenNames====>')
-    },[screens])
+        console.log(screenNames, 'screenNames====>')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [screens])
 
     // useEffect(() => {
     //     const fetchingData = async () => {
@@ -53,9 +54,11 @@ function TheatreSettings() {
     //     fetchingData()
     // }, [inputValue])
 
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate("/login");
+    const handleLogout = async () => {
+        const response = await dispatch(logout());
+        if (response) {
+            navigate("/login");
+        }
     };
     const handleScreenClick = () => {
         setScreen(!screen)
@@ -66,56 +69,99 @@ function TheatreSettings() {
     };
 
     const handleAddScreen = async () => {
-        if (inputValue.trim() === '') {
-            setInputError('Screen name cannot be empty');
+        if (screenInput.trim() === '') {
+            setScreenInputError('Screen name cannot be empty');
+        } else if (moneyInput === 0 ) {
+            setMoneyInputError("Price can't be zero");
         } else {
-            console.log(inputValue, '--input value');
-            await dispatch(addScreen({ inputValue }))
+            console.log(screenInput, '--input value');
+            const inputValue = {
+                screenInput,
+                moneyInput
+            }
+            await dispatch(addScreen( inputValue ))
+            await dispatch(listTheatre(id))
         }
         setTimeout(() => {
-            setInputValue('');
-            setInputError('');
+            setScreenInput('')
+            setMoneyInput('')
+            setScreenInputError('');
+            setMoneyInputError('');
         }, 2000)
     };
 
-    const handleSeatSelect = () => {
-        navigate('/theatre/seatLayout')
+    const handleSelectScreen = (screenName: string, id: string) => {
+        navigate(`/theatre/seatLayout/${screenName}/${id}`)
+
     }
+
+    const handleSeatSelect = () => {
+        setIsOpen(true)
+    }
+
+    const handleModalClose = () => {
+        setIsOpen(false);
+    };
 
 
     return (
         <div className=''>
             {
+                isOpen && (
+                    <>
+                        <Modal handleClose={handleModalClose} open={isOpen} >
+                            <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>Choose Screen</h1>
+                            <div className='flex flex-col gap-3 justify-center items-center my-5'>
+                                {
+                                    screenNames?.map((screen: IScreen, index: number) => (
+                                        <h1 onClick={() => handleSelectScreen(screen.screenName, screen._id)} key={index} className="text-white text-center cursor-pointer bg-slate-500 rounded-md w-1/2 py-3">{screen.screenName}</h1>
+                                    ))
+                                }
+                            </div>
+                        </Modal>
+                    </>
+                )
+            }
+            {
                 screen && (
                     <>
                         <RightDrawer open={screen} handleClose={handleClose} >
-                            <div className='bg-black h-screen'>
-                                {
-                                    !screenNames ? (
-                                        <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>No Screens found</h1>
-                                    ) : (
-                                        <>
-                                            <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>ADDED SCREENS</h1>
-                                            <div className='flex flex-col gap-6 mt-5 justify-center items-center '>
-                                                {screenNames.map((screen: IScreen, index:number) => (
-                                                    <h1 key={index} className="text-white text-center bg-slate-500 rounded-md w-1/2 py-3">{screen.screenName}</h1>
-                                                ))}
-                                            </div>
-                                        </>
-                                    )
-                                }
-                                <div className='mt-4 text-center'>
-                                    <button onClick={() => setInput(!input)} className='bg-red-500 text-sm text-white px-3 py-2 rounded-md'>Add Screen</button>
+                            <div className='bg-black h-screen flex'>
+                                <div className='w-1/2'>
+                                    {
+                                        !screenNames ? (
+                                            <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>No Screens found</h1>
+                                        ) : (
+                                            <>
+                                                <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>ADDED SCREENS</h1>
+                                                <div className='flex flex-col gap-6 mt-5 justify-center items-center '>
+                                                    {screenNames.map((screen: IScreen, index: number) => (
+                                                        <div className='rounded-md flex flex-col w-1/3 px-4 items-center bg-slate-500' key={index}>
+                                                        <span className="text-white font-bold">{screen.screenName}</span>
+                                                        <span className="text-white font-bold">₹{screen.seatCost}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </>
+                                        )
+                                    }
+                                    <div className='mt-4 text-center'>
+                                        <button onClick={() => setInput(!input)} className='bg-red-500 text-sm text-white px-3 py-2 rounded-md'>Add Screen</button>
+                                    </div>
                                 </div>
-                                {
-                                    input ? (
-                                        <div className='text-center'>
-                                            <input className='p-3 mt-4 bg-slate-700 text-white' name='screen' onChange={(e) => setInputValue(e.target.value)} value={inputValue} placeholder='Enter the name of the screen' type="text" />
-                                            <button className='bg-white px-3 py-2 text-sm ms-2 rounded-md' onClick={handleAddScreen}>Add</button>
-                                        </div>
-                                    ) : ''
-                                }
-                                {inputError && <p className="text-red-500 text-sm mt-2">{inputError}</p>}
+                                <div className='w-1/2 flex mt-20'>
+                                    {
+                                        input ? (
+                                            <div className='text-center flex flex-col gap-2 items-center'>
+                                                <input className='p-3 bg-slate-700 text-white' name='screen' onChange={(e) => setScreenInput(e.target.value)} value={screenInput} placeholder='Enter the name of the screen' type="text" />
+                                                <input className='p-3  bg-slate-700 text-white' name='money' onChange={(e) => setMoneyInput(Number(e.target.value))} value={moneyInput} placeholder='Enter the cost of seat' type="number" />
+                                                <button className='bg-white px-3 py-2 text-sm ms-2 rounded-md' onClick={handleAddScreen}>Add</button>
+                                            </div>
+                                        ) : ''
+                                    }
+                                    {screenInputError && <p className="text-red-500 text-sm mt-2">{screenInputError}</p>}
+                                    {moneyInputError && <p className="text-red-500 text-sm mt-2">{moneyInputError}</p>}
+                                </div>
                             </div>
                         </RightDrawer>
                         {/* <Modal handleClose={handleClose} open={screen}>

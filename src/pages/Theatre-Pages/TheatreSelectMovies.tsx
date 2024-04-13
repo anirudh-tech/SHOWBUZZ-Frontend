@@ -56,7 +56,7 @@ const TheatreSelectMovies = () => {
   const [selectedDates, setSelectedDates] = useState<dayjs.Dayjs[]>([]);
   const id = useSelector((state: IUserSelector) => state.user?.user?._id);
   const { data: movies } = useFetchData('/movie/listTheatreMovies');
-  const tableHead = ['Id', 'Movie name', 'Date Of Release', 'View'];
+  const tableHead = ['Movie name', 'Date Of Release', 'View'];
   const dispatch = useDispatch<AppDispatch>();
   const { error } = useSelector((state: IAdminSelector) => state.admin);
   const screens: IScreen[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
@@ -81,6 +81,7 @@ const TheatreSelectMovies = () => {
         dispatch(makeErrorDisable());
       }, 5000);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const currentDate = dayjs()
@@ -155,7 +156,6 @@ const TheatreSelectMovies = () => {
   };
 
   const filteredMovies = movies.map((movie: IMovie) => ({
-    id: movie._id,
     name: movie.title,
     dateOfRelease: movie.dateOfRelease,
     view: <RiEyeLine className='cursor-pointer' onClick={() => HandleClick(movie._id)} />

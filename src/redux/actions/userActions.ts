@@ -42,6 +42,16 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
     }
 })
 
+export const updateUser = createAsyncThunk("user/updateUser", async (userCredentials : any, {rejectWithValue}) => {
+    try {
+        const {data} = await axios.post(`${baseUrl}/auth/updateUser`,userCredentials,config)
+        return data.user
+    } catch (err) {
+        const axiosError = err as AxiosError<ApiError>;
+        return handleError(axiosError, rejectWithValue);
+    }
+})
+
 export const logout = createAsyncThunk("user/logout", async () => {
     try {
         const response = await axios.get(`${baseUrl}/auth/logout`,{withCredentials: true});

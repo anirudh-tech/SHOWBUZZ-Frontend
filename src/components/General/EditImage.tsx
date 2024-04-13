@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsCardImage } from 'react-icons/bs'
 
 
@@ -9,13 +9,21 @@ interface Props {
     handleBlur: any;
     errors: any;
     touched: any;
+    image: string;
+    changed: any
 }
-const ImageUpload = ({id,title,setFieldValue,handleBlur, errors, touched}: Props) => {
+const EditImage = ({id,title,setFieldValue, changed, handleBlur, errors,image, touched}: Props) => {
     const [imageUrl, setImageUrl] = useState<any>(null);
+
+    useEffect(() => {
+      if(image) {
+        setImageUrl(image)
+      }
+    })
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.currentTarget.files?.[0];
-
+        changed(true)
         if (file) {
             setFieldValue(id, file);
 
@@ -50,4 +58,4 @@ const ImageUpload = ({id,title,setFieldValue,handleBlur, errors, touched}: Props
     )
 }
 
-export default ImageUpload
+export default EditImage

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const ValidationSchema = yup.object().shape({
-    username: yup.string().min(2).max(25).required("User name is required"),
+    username: yup.string().min(2).max(25).matches(/^\S*$/, 'Username cannot contain spaces').required("User name is required"),
     email: yup.string()
     .email("Invalid email address")
     .required("Email is required"),

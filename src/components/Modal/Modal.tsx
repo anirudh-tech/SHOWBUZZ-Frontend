@@ -11,7 +11,7 @@ const Modal = ({handleClose, open, children}: any) => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        maxWidth="lg"
+        maxWidth="xl"
       >
         <DialogContent className='bg-slate-900'>
           <DialogContentText id="alert-dialog-description">

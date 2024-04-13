@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import UserSignup from "./pages/User-Pages/UserSignup"
 import { useDispatch, useSelector } from "react-redux";
-import { IAdminSelector, IUserSelector } from "./interface/IUserSlice";
+import { IUserSelector } from "./interface/IUserSlice";
 import { makeErrorDisable } from './redux/reducers/user/userSlice';
 import { Toaster } from "react-hot-toast";
 // import TheatreSignup from "./pages/Theatre-Pages/TheatreSignup";
@@ -30,6 +30,8 @@ import TheatreMovies from "./pages/Theatre-Pages/TheatreMovies";
 import TheatreSelectMovies from "./pages/Theatre-Pages/TheatreSelectMovies";
 import { listTheatre } from "./redux/actions/adminActions";
 import TheatreSeatLayout from "./pages/Theatre-Pages/TheatreSeatLayout";
+import UserSeatSelection from "./pages/User-Pages/UserSeatSelection";
+import UserCheckout from "./pages/User-Pages/UserCheckout";
 
 
 
@@ -63,7 +65,7 @@ function App() {
           <Route path="/signup" element={<UserSignup />} />
           <Route path="/theatre/signup" element={<TheatreSignup />} />
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="*" element={<Navigate to="/login" />} />
+          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
         </Routes>
       </>
     );
@@ -80,6 +82,8 @@ function App() {
           <Route path='/userHome' element={user ? <UserHome /> : <Navigate to={'/login'} />} />
           <Route path='/userTheatreMovies' element={user ? <UserTheatreMovies /> : <Navigate to={'/login'} />} />
           <Route path='/selectTheatre/:id' element={user ? <UserTicketBooking /> : <Navigate to={'/login'} />} />
+          <Route path='/selectTheatre/:id/seat-selection' element={user ? <UserSeatSelection /> : <Navigate to={'/login'} />} />
+          <Route path='/selectTheatre/:id/seat-selection/checkout' element={user ? <UserCheckout /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={<UserSettings />} />
         </Routes>
@@ -101,7 +105,7 @@ function App() {
           <Route path="/theatre/settings" element={<TheatreProtectedRoute element={<TheatreSettings />} />} />
           <Route path="/theatre/movies" element={<TheatreProtectedRoute element={<TheatreMovies />} />} />
           <Route path="/theatre/selectMovies" element={<TheatreProtectedRoute element={<TheatreSelectMovies />} />} />
-          <Route path="/theatre/seatLayout" element={<TheatreProtectedRoute element={<TheatreSeatLayout />} />} />
+          <Route path="/theatre/seatLayout/:screenName/:id" element={<TheatreProtectedRoute element={<TheatreSeatLayout />} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </>

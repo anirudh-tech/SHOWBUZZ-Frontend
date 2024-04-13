@@ -1,4 +1,3 @@
-import React from 'react'
 import { AiFillSetting } from 'react-icons/ai'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +9,11 @@ import { CgProfile } from 'react-icons/cg';
 function AdminSettings() {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate("/login");
+    const handleLogout = async() => {
+        const response = await dispatch(logout());
+        if(response) {
+            navigate("/login");
+        }
     };
 
     return (

@@ -1,33 +1,38 @@
-import { useFormik } from 'formik';
-import { AddMoviesValidationSchema } from '../../schemas/AddMoviesValidationSchema';
-import ImageUpload from '../General/ImageUpload';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../redux/store';
-import { addTheatreMovie } from '../../redux/actions/adminActions';
-import { IMovie } from '../../interface/ITheatreMovie';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import BeatLoader from 'react-spinners/BeatLoader'
-import toast, { Toaster } from 'react-hot-toast';
+import { useState } from "react";
+import { AppDispatch } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { IMovie } from "../../interface/ITheatreMovie";
+import { addTheatreMovie } from "../../redux/actions/adminActions";
+import toast, { Toaster } from "react-hot-toast";
+import BeatLoader from "react-spinners/BeatLoader";
+import EditImage from "../../components/General/EditImage";
+import { EditMoviesValidationSchema } from "../../schemas/EditMoviesValidationSchema";
 
-const initialValues = {
-  title: '',
-  director: '',
-  genre: '',
-  format: '',
-  languagesAvailable: '',
-  image: '',
-  banner: '',
-  cast: '',
+interface Props {
+  movie: IMovie
 }
-const AdminAddMoviesForm = () => {
+
+const AdminEditMovies = ({movie}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [imageChanged, setImageChanged] = useState(false)
+  const [bannerChanged, setBannerChanged] = useState(false)
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
 
+  const initialValues = {
+    title: movie.title,
+    director: movie.director,
+    genre: movie.genre,
+    format: movie.format,
+    languagesAvailable: movie.languagesAvailable,
+    image: movie.image,
+    banner: movie.banner,
+    cast: movie.cast,
+  }
   const imageUpload = async (image: any) => {
     console.log(image, '-=-==-=-=-===-=-=--=');
-
     const formData = new FormData();
     formData.append('file', image);
     formData.append('upload_preset', 'trpocbuj');
@@ -49,12 +54,19 @@ const AdminAddMoviesForm = () => {
   }
   const { values, errors, touched, handleBlur, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: AddMoviesValidationSchema,
+    validationSchema: EditMoviesValidationSchema,
     onSubmit: async (values, action) => {
+      console.log(values.image)
       
       setIsLoading(true)
-      const image = await imageUpload(values.image);
-      const banner = await imageUpload(values.banner);
+      let image = values.image;
+      let banner = values.banner;
+      if(imageChanged){
+        image = await imageUpload(values.image);
+      }
+      if(bannerChanged){
+        banner = await imageUpload(values.banner);
+      }
       if(image && banner) {
         const movieData: IMovie = {
           title: values.title,
@@ -69,7 +81,7 @@ const AdminAddMoviesForm = () => {
           dateOfRelease: new Date()
         };
         console.log(movieData,'movieData');
-        const response = await dispatch(addTheatreMovie(movieData))
+        const response = await dispatch((movieData))
         console.log(response, '----')
         setIsLoading(false)
         action.resetForm();
@@ -99,8 +111,8 @@ const AdminAddMoviesForm = () => {
         </div>
       ) : (
         <form className='mt-4' onSubmit={handleSubmit}>
-          <div className='mb-4 flex justify-evenly'>
-            <div className='w-1/3'>
+          <div className='mb-4 gap-2 flex justify-evenly'>
+            <div className='w-3/4'>
               <label htmlFor='title' className='block text-sm font-medium text-white'>
                 Title:
               </label>
@@ -116,7 +128,7 @@ const AdminAddMoviesForm = () => {
               />
               {errors.title && touched.title ? (<p className='text-red-700'>{errors.title}</p>) : null}
             </div>
-            <div className='w-1/3'>
+            <div className='w-3/4'>
               <label htmlFor='director' className='block text-sm font-medium text-white'>
                 Director:
               </label>
@@ -133,8 +145,8 @@ const AdminAddMoviesForm = () => {
               {errors.director && touched.director ? (<p className='text-red-700'>{errors.director}</p>) : null}
             </div>
           </div>
-          <div className='mb-4 flex justify-evenly'>
-            <div className='w-1/3'>
+          <div className='mb-4 flex gap-2 justify-evenly'>
+            <div className='w-3/4'>
               <label htmlFor='genre' className='block text-sm font-medium text-white'>
                 Genre:
               </label>
@@ -150,7 +162,7 @@ const AdminAddMoviesForm = () => {
               />
               {errors.genre && touched.genre ? (<p className='text-red-700'>{errors.genre}</p>) : null}
             </div>
-            <div className='w-1/3'>
+            <div className='w-3/4'>
               <label htmlFor='format' className='block text-sm font-medium text-white'>
                 Format:
               </label>
@@ -171,8 +183,8 @@ const AdminAddMoviesForm = () => {
           </div>
 
 
-          <div className='mb-4 flex justify-evenly'>
-            <div className='w-1/3'>
+          <div className='mb-4 flex gap-2 justify-evenly'>
+            <div className='w-3/4'>
               <label htmlFor='languages' className='block text-sm font-medium text-white'>
                 Languages Available:
               </label>
@@ -188,7 +200,7 @@ const AdminAddMoviesForm = () => {
               />
               {errors.languagesAvailable && touched.languagesAvailable ? (<p className='text-red-700'>{errors.languagesAvailable}</p>) : null}
             </div>
-            <div className='w-1/3'>
+            <div className='w-3/4'>
               <label htmlFor='cast' className='block text-sm font-medium text-white'>
                 Cast:
               </label>
@@ -207,12 +219,12 @@ const AdminAddMoviesForm = () => {
           </div>
 
 
-          <div className='mb-4 flex justify-evenly'>
-            <div className='w-1/3'>
-              <ImageUpload id='image' title='Click to insert Image' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
+          <div className='mb-4 flex gap-2 justify-evenly'>
+            <div className='w-3/4'>
+              <EditImage  id='image' title='Click to insert Image' changed={setImageChanged} image={movie.image} handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
             </div>
-            <div className='w-1/3'>
-              <ImageUpload id='banner' title='Click to insert Banner' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
+            <div className='w-3/4'>
+              <EditImage id='banner' title='Click to insert Banner' changed={setBannerChanged} image={movie.banner} handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
             </div>
           </div>
           <div className='text-center'>
@@ -221,10 +233,8 @@ const AdminAddMoviesForm = () => {
         </form>
       )
       }
-
     </>
   )
 }
 
-
-export default AdminAddMoviesForm
+export default AdminEditMovies

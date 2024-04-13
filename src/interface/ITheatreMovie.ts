@@ -21,7 +21,9 @@ export interface IProps {
 }
 
 export interface IScreen {
+  _id: string,
   screenName: string;
+  seatCost: number;
   availableSeats: string ,
   selectedMovies: IProps[]
 }
