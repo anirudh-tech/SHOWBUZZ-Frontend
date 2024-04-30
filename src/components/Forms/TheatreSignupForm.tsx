@@ -107,7 +107,7 @@ function TheatreSignupForm() {
             <Otp userData={tempData} />
           ) : (
             <>
-              <h1 className='text-2xl font-bold text-white mb-4 font-roboto'>Signup For Your Account</h1>
+              <h1 className='text-2xl font-bold text-white text-center mb-4 font-roboto'>Signup As Theatre</h1>
               <form onSubmit={handleSubmit}>
                 <div className='mb-4'>
                   <label htmlFor='username' className='block text-sm font-medium text-white'>

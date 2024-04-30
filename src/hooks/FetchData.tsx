@@ -18,9 +18,7 @@ const useFetchData = (url: string) => {
           setData(response?.data?.data)
         }
       }
-
       fetchData()
-
       return () => {
         // Abort fetch if component unmounts before fetch completes
         // Implement this if required based on your use case

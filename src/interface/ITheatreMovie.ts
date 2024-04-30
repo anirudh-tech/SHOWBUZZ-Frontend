@@ -3,12 +3,13 @@ export interface IMovie {
   title: string;
   director: string;
   genre: string;
-  format: string;
+  format: string[];
   languagesAvailable: string;
   image: string;
   banner: string
   cast: string;
   type: string;
+  status?: string;
   dateOfRelease: Date;
 }
 
@@ -37,6 +38,7 @@ export interface ITheatre {
   availableSeats: string;
   totalAmountPaid: number;
   createdAt: Date;
+  status: string;
 }
 
 export interface IDate{

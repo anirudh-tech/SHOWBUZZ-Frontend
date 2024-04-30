@@ -4,7 +4,6 @@ import ImageUpload from '../General/ImageUpload';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { addTheatreMovie } from '../../redux/actions/adminActions';
-import { IMovie } from '../../interface/ITheatreMovie';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader'
@@ -14,28 +13,20 @@ const initialValues = {
   title: '',
   director: '',
   genre: '',
-  formats: [] as string[],
   languagesAvailable: '',
-  image: '',
+  video: '',
   banner: '',
   cast: '',
+  subscribe: '',
 }
-const AdminAddMoviesForm = () => {
+
+const AdminAddOttMoviesForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
 
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const format = event.target.value;
-    const isChecked = event.target.checked;
 
-    if (isChecked) {
-      setFieldValue('formats', [...values.formats, format]);
-    } else {
-      setFieldValue('formats', values.formats.filter((f: string) => f !== format));
-    }
-  };
 
   const imageUpload = async (image: any) => {
     console.log(image, '-=-==-=-=-===-=-=--=');
@@ -65,16 +56,13 @@ const AdminAddMoviesForm = () => {
     onSubmit: async (values, action) => {
 
       setIsLoading(true)
-      const image = await imageUpload(values.image);
       const banner = await imageUpload(values.banner);
-      if (image && banner) {
-        const movieData: IMovie = {
+      if ( banner) {
+        const movieData: any = {
           title: values.title,
           director: values.director,
           genre: values.genre,
-          format: values.formats,
           languagesAvailable: values.languagesAvailable,
-          image: image,
           banner: banner,
           cast: values.cast,
           type: "theatre",
@@ -162,33 +150,6 @@ const AdminAddMoviesForm = () => {
                 />
                 {errors.genre && touched.genre ? (<p className='text-red-700'>{errors.genre}</p>) : null}
               </div>
-              <div className='mb-4 w-1/3'>
-                <label className='block text-sm font-medium text-white'>Format:</label>
-                <div className='flex flex-wrap'>
-                  <label className='inline-flex items-center mr-4'>
-                    <input
-                      type='checkbox'
-                      name='formats'
-                      value='2D'
-                      checked={values.formats.includes('2D')}
-                      onChange={handleCheckboxChange}
-                    />
-                    <span className='ml-2 text-white'>2D</span>
-                  </label>
-                  <label className='inline-flex items-center'>
-                    <input
-                      type='checkbox'
-                      name='formats'
-                      value='3D'
-                      checked={values.formats.includes('3D')}
-                      onChange={handleCheckboxChange}
-                    />
-                    <span className='ml-2 text-white'>3D</span>
-                  </label>
-                  {/* Add more checkboxes as needed */}
-                </div>
-                {errors.formats && touched.formats ? <p className='text-red-700'>{errors.formats}</p> : null}
-              </div>
             </div>
 
 
@@ -247,5 +208,4 @@ const AdminAddMoviesForm = () => {
   )
 }
 
-
-export default AdminAddMoviesForm
+export default AdminAddOttMoviesForm

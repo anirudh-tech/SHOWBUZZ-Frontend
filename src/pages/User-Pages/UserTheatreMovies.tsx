@@ -2,6 +2,7 @@ import useFetchData from '../../hooks/FetchData';
 // import { useNavigate } from 'react-router-dom';
 import TheatreBanner from '../../components/TheatreBanner/TheatreBanner';
 import TheatreMovieCard from '../../components/MovieCard/TheatreMovieCard';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const UserTheatreMovies = () => {
   const { data: movies } = useFetchData('/movie/listTheatreMovies');
@@ -11,17 +12,18 @@ const UserTheatreMovies = () => {
         movies.length ? (
           <>
           <TheatreBanner movies ={movies}/>
-          <TheatreMovieCard movies ={movies} />
+          <TheatreMovieCard  movies ={movies} />
           </>
         ) : (
-          <div className='flex items-center justify-center h-screen text-white bg-gray-900'>
-            <div className="text-center">
-              <h1 className="mb-4 text-6xl font-semibold text-red-500">404</h1>
-              <p className="mb-4 text-lg">Oops! No Movies Found.</p>
-              <div className="animate-bounce">
-                <svg className="mx-auto h-16 w-16 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
-                </svg>
+          <div className='absolute inset-0 bg-black/60 w-full h-full flex justify-center'>
+            <div className='flex flex-col justify-center'>
+              <div className='flex justify-center'>
+                <BeatLoader
+                  color="#36d7b7"
+                  loading
+                  margin={0}
+                  size={15}
+                />
               </div>
             </div>
           </div>

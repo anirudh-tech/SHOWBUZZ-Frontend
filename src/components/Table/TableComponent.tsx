@@ -21,22 +21,22 @@ const TableComponent = ({ data, tableHead }: IProps) => {
                         {tableHead.map((header: string, index: number) => (
                             <TableCell key={index} className='text-white font-roboto font-bold'>
                                 <div className='text-white'>
-                                {header}
+                                    {header}
                                 </div>
                             </TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((row: { name: string, calories: number, fat: number, carbs: number, protein: number }
+                    {data?.map((row: any
                         , index: number) => (
                         <TableRow
                             key={index}
                             className={clsx(index % 2 === 0 ? '' : 'bg-violet-200', 'text-white')}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            {Object.values(row).map((value, subIndex) => (
-                                <TableCell  key={subIndex}>
+                            {Object.values(row).map((value: any, subIndex: number) => (
+                                <TableCell key={subIndex}>
                                     {value}
                                 </TableCell>
                             ))}

@@ -39,10 +39,10 @@ const UserTicketBooking = () => {
     setSelectedDate(formattedDate);
   };
 
-  const handleTimeSelect = (time: any, cost: number, theatreName: string) => {
+  const handleTimeSelect = (time: any, cost: number, theatreName: string, theatreId: string) => {
     console.log(time, '=====> i1')
     setSelectedTime(time)
-    navigate('seat-selection', { state: { time, cost, theatreName, filteredScreens } });
+    navigate('seat-selection', { state: { time,selectedDate, cost, theatreName,theatreId,movieId, filteredScreens } });
   };
 
   const movieId = movie[0]?._id
@@ -84,7 +84,7 @@ const UserTicketBooking = () => {
         <div className='ps-20 pb-4'>
           <SelectDates handleChange={handleDateSelect} selectedDate={selectedDate} />
         </div>
-        <div className='bg-white py-3 flex justify-between'>
+        <div className='bg-white rounded-2xl py-3 flex justify-between'>
           <div className='ps-16'>
             <span className='text-xl font-roboto font-bold'>Theatre</span>
           </div>
@@ -98,9 +98,9 @@ const UserTicketBooking = () => {
         <div className='flex flex-col'>
           {
             theatres.map((theatre: ITheatre, index: number) => (
-              <div key={index} className=' bg-slate-500 flex items-center justify-between p-10'>
+              <div key={index} className='flex items-center justify-between p-10'>
                 <div className='flex  items-center'>
-                  <span className='font-roboto font-bold text-white'>{theatre.username}</span>
+                  <span className='font-bebas-neue text-3xl font-bold text-white'>{theatre.username}</span>
                 </div>
                 <div className='flex flex-col justify-start pb-2 gap-2'>
                   {theatre.screens.map((screen, index1) => (
@@ -108,11 +108,11 @@ const UserTicketBooking = () => {
                       {screen.selectedMovies.map((movie, index2) => (
                         movie?.movieId?._id === movieId ? (
                           <div className='flex gap-8 justify-start items-center ' key={`${index1}-${index2}`}>
-                            <span className='text-white'>{screen.screenName} : </span>
+                            <span className='text-white font-bebas-neue text-2xl'>{screen.screenName} : </span>
                             {movie.selectedDateTimes.map((date, index3) => (
                               date.date === selectedDate ? (
                                 date.selectedTimes.map((time, index4) => (
-                                  <span onClick={() => handleTimeSelect(time, screen.seatCost,theatre.username)} className='text-white bg-black border border-white px-3 py-2 rounded-md cursor-pointer' key={`${index1}-${index2}-${index3}-${index4}`}>
+                                  <span onClick={() => handleTimeSelect(time, screen.seatCost,theatre.username, theatre._id)} className='text-white font-bebas-neue bg-black border border-white px-3 py-2 rounded-md cursor-pointer' key={`${index1}-${index2}-${index3}-${index4}`}>
                                     {time.hour} : {time.min}
                                   </span>
                                 ))

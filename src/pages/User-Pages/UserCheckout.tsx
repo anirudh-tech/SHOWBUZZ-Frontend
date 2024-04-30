@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { BiDownArrowCircle, BiUpArrowCircle } from "react-icons/bi";
-import { useLocation } from "react-router-dom"
+import {  useLocation, useNavigate } from "react-router-dom"
 import {loadStripe} from '@stripe/stripe-js';
 import { commonRequest } from "../../config/api";
 import { config } from "../../config/configuration";
@@ -11,19 +11,23 @@ const UserCheckout = () => {
   const [baseAmount, setBaseAmount] = useState(40)
   const [open, setOpen] = useState(false)
   const [totalAmount, setTotalAmount] = useState(0)
+  const navigate = useNavigate()
 
   const { state } = useLocation()
   console.log("🚀 ~ file: UserCheckout.tsx:5 ~ UserCheckout ~ state:", state)
 
   const makePayment = async() => {
     const stripe = await loadStripe("pk_test_51P4LmJSIDbcFgJDopVDWAtHRY9VT1wiYyijCNiER3r6dEwOfTmhgweyvR72ib2F1rh84OJH2WfxXfRD2AGwdPg5r00v7y5BqDI")
+    state.totalAmount = totalAmount;
     const body = {
       cost : state.cost,
       selectedSeats: state.selectedSeats,
-      totalAmount: state.totalAmount,
+      totalAmount: totalAmount,
       theatreName: state.theatreName
     }
-    const response = await commonRequest('post','/payment/create-checkout-session',config,body)
+    
+    localStorage.setItem( 'data' , JSON.stringify(state))
+    const response: any = await commonRequest('post','/payment/create-checkout-session',config,body)
     console.log("🚀 ~ file: UserCheckout.tsx:26 ~ makePayment ~ response:", response)
     
     const result = stripe?.redirectToCheckout({
@@ -31,16 +35,19 @@ const UserCheckout = () => {
     })
     console.log(result,'---result')
   }
+  useEffect(() => {
+    if(!state){
+      navigate('/userTheatreMovies')
+    }
+  },[])
 
   useEffect(() => {
     setConvenienceFee(Math.ceil(state.totalAmount * 0.03))
-    setTotalAmount(convenienceFee + baseAmount + state.totalAmount)
+    setTotalAmount(Math.ceil(state.totalAmount * 0.03) + baseAmount + state.totalAmount)
   }, [state])
   return (
     <div className="flex flex-col mt-24 justify-center items-center w-full">
       <div className="bg-white w-80 p-5  flex flex-col relative">
-        <div className="absolute bg-gradient-to-l from-gray-800 to-gray-900  w-5 h-10 -right-0 top-1/2 rounded-s-full"></div>
-        <div className="absolute bg-gray-900 w-5 h-10 -left-0 top-1/2 rounded-e-full"></div>
         <div className="">
           <h1 className="text-2xl text-red-800 font-bebas-neue font-extralight">BOOKING SUMMARY</h1>
         </div>

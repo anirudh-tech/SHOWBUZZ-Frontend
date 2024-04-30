@@ -68,3 +68,58 @@ export const setSeatLayout = createAsyncThunk('theatre/setSeatLayout', async(dat
     data
   )
 })
+
+export const getAllMovies = createAsyncThunk('movie/getAllMovies', async({page, limit}: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/movie/getAllMovies?page=${page}&limit=${limit}`,
+    config,
+    rejectWithValue
+  )
+})
+
+export const getAllUsers = createAsyncThunk('user/listUsers', async({page, limit}: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/user/listUsers?page=${page}&limit=${limit}`,
+    config,
+    rejectWithValue
+  )
+})
+
+export const getAllTheatres = createAsyncThunk('theatre/allTheatres', async({page, limit}: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/theatre/allTheatres?page=${page}&limit=${limit}`,
+    config,
+    rejectWithValue
+  )
+})
+
+export const updateUserStatus = createAsyncThunk('user/updateStatus', async (status: any | null , {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/user/updateStatus`,
+    config,
+    rejectWithValue,
+    status
+  )
+})
+export const updateTheatreStatus = createAsyncThunk('theatre/updateStatus', async (status: any | null , {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/theatre/updateStatus`,
+    config,
+    rejectWithValue,
+    status
+  )
+})
+export const deleteMovie = createAsyncThunk('movies/deleteMovie', async (status: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/movie/deleteMovie`,
+    config,
+    rejectWithValue,
+    status
+  )
+})

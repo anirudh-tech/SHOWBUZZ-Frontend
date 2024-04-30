@@ -26,7 +26,6 @@ import { IAdminSelector, IUserSelector } from '../../interface/IUserSlice';
 import { makeErrorDisable } from '../../redux/reducers/admin/adminSlice';
 
 
-const selectedLanguages: string[] = []
 interface SelectedTime {
   hour: number;
   min: number;
@@ -39,7 +38,7 @@ interface SelectedDate {
 const initialValues = {
   selectedDates: [] as SelectedDate[],
   selectedTimes: [] as SelectedTime[],
-  selectedLanguages: selectedLanguages,
+  selectedLanguages: "",
   selectedFormats: [] as string[],
   selectedScreens: [] as string[],
   movieId: "",
@@ -60,7 +59,7 @@ const TheatreSelectMovies = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { error } = useSelector((state: IAdminSelector) => state.admin);
   const screens: IScreen[] | null = useSelector((state: IAdminSelector) => state.admin.theatreDetails?.screens);
-  const {theatreDetails} = useSelector((state: IAdminSelector) => state.admin);
+  const { theatreDetails } = useSelector((state: IAdminSelector) => state.admin);
   console.log(screens, 'screens--==')
 
 
@@ -81,7 +80,7 @@ const TheatreSelectMovies = () => {
         dispatch(makeErrorDisable());
       }, 5000);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const currentDate = dayjs()
@@ -98,11 +97,11 @@ const TheatreSelectMovies = () => {
       values.movieId = movieData[0]._id;
       values.theatreId = id
       const response = await dispatch(selectMovies(values))
-      console.log(response,theatreDetails,'---- response and theatre details ');
-      
+      console.log(response, theatreDetails, '---- response and theatre details ');
+
       // dispatch(setTheatreDetails(response.payload))
       dispatch(listTheatre(id))
-      console.log(theatreDetails,'==theatre details')
+      console.log(theatreDetails, '==theatre details')
       if (response) {
         action.resetForm()
         setOpen(false)
@@ -214,27 +213,22 @@ const TheatreSelectMovies = () => {
                                   ))
                                 )
                               )}
-                              <div>
+                              {/* <div>
                                 <h1 className='text-white'>Available Languages :</h1>
                                 <FormGroup>
-                                  {movieData[0]?.languagesAvailable?.map((language: string, index: number) => (
-                                    <div key={index}>
-                                      <FormControlLabel className='text-white' control={<Checkbox
-                                        checked={values.selectedLanguages.includes(language)}
-                                        onChange={(e) => {
-                                          const isChecked = e.target.checked;
-                                          if (isChecked) {
-                                            setFieldValue('selectedLanguages', [...values.selectedLanguages, language]);
-                                          } else {
-                                            setFieldValue('selectedLanguages', values.selectedLanguages.filter((lang: string) => lang !== language));
-                                          }
-                                        }}
-                                      />} label={language} />
-                                    </div>
-                                  ))}
+                                  <input
+                                    type="text"
+                                    id="selectedLanguages"
+                                    name="selectedLanguages"
+                                    className="mt-1 p-2 w-full border rounded-md"
+                                    placeholder="Enter available languages"
+                                    value={values.selectedLanguages}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                  />
                                 </FormGroup>
                                 {errors.selectedLanguages && touched.selectedLanguages ? (<p className='text-red-700'>{errors.selectedLanguages}</p>) : null}
-                              </div>
+                              </div> */}
                               <div>
                                 <h1 className='text-white'>Select Format :</h1>
                                 <FormGroup>
@@ -260,7 +254,7 @@ const TheatreSelectMovies = () => {
                               <div>
                                 <h1 className='text-white'>Select Screen :</h1>
                                 <FormGroup>
-                                  {screens?.map(( screen: IScreen , index: number) => (
+                                  {screens?.map((screen: IScreen, index: number) => (
                                     <div key={index}>
                                       <FormControlLabel
                                         className='text-white'

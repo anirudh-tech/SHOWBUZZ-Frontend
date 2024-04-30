@@ -8,15 +8,8 @@ interface BottomDrawerProps {
 
 const BottomDrawer: React.FC<BottomDrawerProps> = ({ children}) => {
   return (
-    <div className='fixed bottom-0 w-full'>
+    <div className='w-full'>
       {children}
-      {/* <Drawer anchor={'bottom'} open={open} onClose={handleClose} >
-        <Box sx={{
-          width: '200px',
-        }} >
-          {children}
-        </Box>
-      </Drawer> */}
     </div>
   );
 }

@@ -4,28 +4,40 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { IMovie } from "../../interface/ITheatreMovie";
-import { addTheatreMovie } from "../../redux/actions/adminActions";
 import toast, { Toaster } from "react-hot-toast";
 import BeatLoader from "react-spinners/BeatLoader";
 import EditImage from "../../components/General/EditImage";
 import { EditMoviesValidationSchema } from "../../schemas/EditMoviesValidationSchema";
+import { editTheatreMovie } from "../../redux/actions/adminActions";
 
 interface Props {
-  movie: IMovie
+  movie: IMovie,
+  setOpen: any,
 }
 
-const AdminEditMovies = ({movie}: Props) => {
+const AdminEditMovies = ({movie, setOpen}: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [imageChanged, setImageChanged] = useState(false)
   const [bannerChanged, setBannerChanged] = useState(false)
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const format = event.target.value;
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      setFieldValue('formats', [...values.formats, format]);
+    } else {
+      setFieldValue('formats', values.formats.filter((f: string) => f !== format));
+    }
+  };
 
   const initialValues = {
     title: movie.title,
     director: movie.director,
     genre: movie.genre,
-    format: movie.format,
+    formats: movie.format,
     languagesAvailable: movie.languagesAvailable,
     image: movie.image,
     banner: movie.banner,
@@ -69,10 +81,11 @@ const AdminEditMovies = ({movie}: Props) => {
       }
       if(image && banner) {
         const movieData: IMovie = {
+          _id: movie._id,
           title: values.title,
           director: values.director,
           genre: values.genre,
-          format: values.format,
+          format: values.formats,
           languagesAvailable: values.languagesAvailable,
           image: image,
           banner: banner,
@@ -81,10 +94,11 @@ const AdminEditMovies = ({movie}: Props) => {
           dateOfRelease: new Date()
         };
         console.log(movieData,'movieData');
-        const response = await dispatch((movieData))
+        const response = await dispatch(editTheatreMovie(movieData))
         console.log(response, '----')
         setIsLoading(false)
         action.resetForm();
+        setOpen(false)
         navigate('/admin/theatre-movies')
       } else {
         toast.error('Enter Valid Image')
@@ -162,24 +176,33 @@ const AdminEditMovies = ({movie}: Props) => {
               />
               {errors.genre && touched.genre ? (<p className='text-red-700'>{errors.genre}</p>) : null}
             </div>
-            <div className='w-3/4'>
-              <label htmlFor='format' className='block text-sm font-medium text-white'>
-                Format:
-              </label>
-              <select
-                id='format'
-                name='format'
-                className='mt-1 p-2 w-full border rounded-md'
-                value={values.format}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              >
-                <option value="">Select Format</option>
-                <option value="2D">2D</option>
-                <option value="3D">3D</option>
-              </select>
-              {errors.format && touched.format ? (<p className='text-red-700'>{errors.format}</p>) : null}
-            </div>
+            <div className='mb-4 w-1/3'>
+                <label className='block text-sm font-medium text-white'>Format:</label>
+                <div className='flex flex-wrap'>
+                  <label className='inline-flex items-center mr-4'>
+                    <input
+                      type='checkbox'
+                      name='formats'
+                      value='2D'
+                      checked={values.formats.includes('2D')}
+                      onChange={handleCheckboxChange}
+                    />
+                    <span className='ml-2 text-white'>2D</span>
+                  </label>
+                  <label className='inline-flex items-center'>
+                    <input
+                      type='checkbox'
+                      name='formats'
+                      value='3D'
+                      checked={values.formats.includes('3D')}
+                      onChange={handleCheckboxChange}
+                    />
+                    <span className='ml-2 text-white'>3D</span>
+                  </label>
+                  {/* Add more checkboxes as needed */}
+                </div>
+                {errors.formats && touched.formats ? <p className='text-red-700'>{errors.formats}</p> : null}
+              </div>
           </div>
 
 

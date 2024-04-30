@@ -32,6 +32,10 @@ import { listTheatre } from "./redux/actions/adminActions";
 import TheatreSeatLayout from "./pages/Theatre-Pages/TheatreSeatLayout";
 import UserSeatSelection from "./pages/User-Pages/UserSeatSelection";
 import UserCheckout from "./pages/User-Pages/UserCheckout";
+import UserPaymentSuccess from "./pages/User-Pages/UserPaymentSuccess";
+import UserTicketsPage from "./pages/User-Pages/UserTicketsPage";
+import AdminAddOttMovies from "./pages/Admin-Pages/AdminAddOttMovies";
+import AdminOttMovies from "./pages/Admin-Pages/AdminOttMovies";
 
 
 
@@ -40,6 +44,7 @@ function App() {
   const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   const dispatch = useDispatch<AppDispatch>();
   const id = useSelector((state: IUserSelector) => state.user?.user?._id);
+  // const { state } = useLocation()
 
   useEffect(() => {
     dispatch(listTheatre(id))
@@ -84,6 +89,8 @@ function App() {
           <Route path='/selectTheatre/:id' element={user ? <UserTicketBooking /> : <Navigate to={'/login'} />} />
           <Route path='/selectTheatre/:id/seat-selection' element={user ? <UserSeatSelection /> : <Navigate to={'/login'} />} />
           <Route path='/selectTheatre/:id/seat-selection/checkout' element={user ? <UserCheckout /> : <Navigate to={'/login'} />} />
+          <Route path='/paymentSuccess' element={user ? <UserPaymentSuccess /> : <Navigate to={'/login'} />} />
+          <Route path='/my-tickets' element={user ? <UserTicketsPage /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={<UserSettings />} />
         </Routes>
@@ -127,6 +134,8 @@ function App() {
           <Route path="/admin/theatre-movies" element={user ? <AdminTheatreMovies /> : <Navigate to={'/'} />} />
           <Route path="/admin/addMovies" element={user ? <AdminAddMovies /> : <Navigate to={'/'} />} />
           <Route path="/admin/settings" element={user ? <AdminSettings /> : <Navigate to={'/'} />} />
+          <Route path="/admin/stream-movies" element={user ? <AdminOttMovies /> : <Navigate to={'/'} />} />
+          <Route path="/admin/add-stream-movies" element={user ? <AdminAddOttMovies /> : <Navigate to={'/'} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </>

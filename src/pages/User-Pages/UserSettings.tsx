@@ -54,7 +54,7 @@ function UserSettings() {
 
 
     return (
-        <div className=''>
+        <div>
             {
                 profileModal &&
                 <Modal open={profileModal} handleClose={handleClose}>
@@ -85,21 +85,21 @@ function UserSettings() {
                 </Modal>
             }
             <div className=''>
-                <div className='h-16 p-4  bg-gray-800 flex text-3xl gap-3'>
+                <div className='p-4 flex text-3xl gap-3'>
                     <AiFillSetting className='text-white' />
-                    <h1 className='font-roboto text-white '>SETTINGS</h1>
+                    <h1 className='font-roboto font-bold text-white '>SETTINGS</h1>
                 </div>
             </div>
             <div className='flex flex-col p-16 gap-y-8 items-center justify-items'>
-                <div onClick={() => handleProfileClick()} className='h-16 p-4 w-1/2  bg-gray-800 flex text-lg gap-3 cursor-pointer'>
+                <div onClick={() => handleProfileClick()} className='h-16 p-4 w-1/2 rounded-2xl bg-gray-800 flex text-lg gap-3 cursor-pointer'>
                     <CgProfile className='text-white mt-1' />
                     <h1 className='font-roboto text-white '>Edit Profile</h1>
                 </div>
-                <div className='h-16 p-4 w-1/2   bg-gray-800 flex text-lg gap-3'>
+                <div className='h-16 p-4 w-1/2 rounded-2xl  bg-gray-800 flex text-lg gap-3'>
                     <RiLockPasswordLine className='text-white mt-1' />
                     <h1 className='font-roboto text-white '>Change Password</h1>
                 </div>
-                <div className='h-16 p-4 w-1/2   bg-gray-800 flex text-lg gap-3'>
+                <div className='h-16 p-4 w-1/2 rounded-2xl  bg-gray-800 flex text-lg gap-3'>
                     <BiExit className='text-white mt-1.5' />
                     <button onClick={handleLogout} className='font-roboto text-white '>Logout</button>
                 </div>

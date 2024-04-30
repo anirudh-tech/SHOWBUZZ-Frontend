@@ -19,7 +19,7 @@ const EditImage = ({id,title,setFieldValue, changed, handleBlur, errors,image, t
       if(image) {
         setImageUrl(image)
       }
-    })
+    },[image])
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.currentTarget.files?.[0];

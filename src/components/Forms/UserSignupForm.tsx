@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import loginImage from '../../assets/loginImage2.jpg';
 import { useFormik } from 'formik';
 import { ValidationSchema } from '../../schemas/ValidationSchema';
@@ -211,6 +211,11 @@ function UserSignupForm() {
                 <p className='text-white text-center mt-3'>Already have an account?
                   <Link className='mx-2 font-bold text-blue-900 hover:underline hover:text-red-700' to="/login">
                     Go to Login
+                  </Link>
+                </p>
+                <p className='text-white text-center mt-3'>Signup As Theatre?
+                  <Link className='mx-2 font-bold text-blue-900 hover:underline hover:text-red-700' to="/theatre/signup">
+                    Go to Theatre Signup
                   </Link>
                 </p>
               </>

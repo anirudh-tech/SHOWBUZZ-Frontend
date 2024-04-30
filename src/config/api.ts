@@ -22,6 +22,7 @@ export const reduxRequest = async (
   };
   try {
     const response = await instance(requestConfig);
+    console.log("🚀 ~ file: api.ts:25 ~ response:", response)
     return response.data.data;
   } catch (error: any) {
     const axiosError = error as AxiosError<ApiError>;
