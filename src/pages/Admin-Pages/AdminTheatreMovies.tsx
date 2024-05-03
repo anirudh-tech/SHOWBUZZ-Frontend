@@ -42,7 +42,8 @@ const AdminTheatreMovies = () => {
                 setTotalPage(response.payload?.totalPage);
             }
         })
-    }, [activePage, isOpen])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [activePage, isOpen,movies])
     const navigate = useNavigate()
     const handleClose = () => {
         setOpen(false)
@@ -66,22 +67,42 @@ const AdminTheatreMovies = () => {
     }
 
     return (
-        <>
-            {
-                open &&
-                <Modal open={open} handleClose={handleClose}>
-                    <AdminEditMovies movie={movie} setOpen={setOpen} />
-                </Modal>
-            }
-            <div className='text-end me-4'>
-                <button onClick={() => navigate('/admin/addMovies')} className='bg-red-600 p-3 rounded-md text-white hover:bg-red-900'>ADD MOVIES</button>
-            </div>
-            <TheatreMovieCard movies={movies} newStatus={newStatus} handleDeleteClick={handleDeleteClick} positiveClick={positiveClick} negativeClick={negativeClick} isOpen={isOpen} setOpen={setOpen} setMovie={setMovie} />
+        <div className='pt-20'>
+            {movies?.length === 0 ? (
+                <div className='absolute inset-0 bg-black/60 w-full h-full flex justify-center'>
 
-            <Stack alignItems={'center'} spacing={2}>
-                <Pagination onChange={(_, page) => setActivePage(page)} count={totalPage} variant="outlined" color="primary" />
-            </Stack>
-        </>
+                    <div className='flex flex-col justify-center'>
+                        <div className='flex flex-col justify-center'>
+                            <h1 className='text-3xl text-white'>No Movies where added</h1>
+                            <div className='text-center me-4'>
+                                <button onClick={() => navigate('/admin/addMovies')} className='bg-red-600 p-3 rounded-md text-white hover:bg-red-900'>ADD MOVIES</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    {
+                        open &&
+                        <Modal open={open} handleClose={handleClose}>
+                            <AdminEditMovies movie={movie} setOpen={setOpen} />
+                        </Modal>
+                    }
+                    <div className=''>
+                        <div className='p-4 flex  gap-3 justify-between'>
+                            <div></div>
+                            <h1 className='text-3xl font-bold text-white '>Theatre Movies</h1>
+                            <button onClick={() => navigate('/admin/addMovies')} className='border-red-500 border-2 p-3 rounded-md text-white hover:bg-red-500'>ADD MOVIES</button>
+                        </div>
+                    </div>
+                    <TheatreMovieCard movies={movies} newStatus={newStatus} handleDeleteClick={handleDeleteClick} positiveClick={positiveClick} negativeClick={negativeClick} isOpen={isOpen} setOpen={setOpen} setMovie={setMovie} />
+
+                    <Stack alignItems={'center'} spacing={2}>
+                        <Pagination onChange={(_, page) => setActivePage(page)} count={totalPage} variant="outlined" color="primary" />
+                    </Stack>
+                </>
+            )}
+        </div>
     )
 }
 

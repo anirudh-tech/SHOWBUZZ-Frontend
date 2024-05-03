@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { AiFillSetting } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout, updateUser } from '../../redux/actions/userActions';
@@ -30,7 +29,9 @@ function UserSettings() {
     }
 
     const handleProfileClick = () => {
-        setProfileModal(true)
+        // setProfileModal(true)
+        navigate("edit-profile")
+
     }
     const handleClose = () => {
         setProfileModal(false)
@@ -54,7 +55,7 @@ function UserSettings() {
 
 
     return (
-        <div>
+        <div className='pt-14'>
             {
                 profileModal &&
                 <Modal open={profileModal} handleClose={handleClose}>
@@ -85,9 +86,9 @@ function UserSettings() {
                 </Modal>
             }
             <div className=''>
-                <div className='p-4 flex text-3xl gap-3'>
-                    <AiFillSetting className='text-white' />
-                    <h1 className='font-roboto font-bold text-white '>SETTINGS</h1>
+                <div className='p-4 flex text-3xl gap-3 justify-center'>
+                    
+                    <h1 className=' font-bold text-white '>SETTINGS</h1>
                 </div>
             </div>
             <div className='flex flex-col p-16 gap-y-8 items-center justify-items'>

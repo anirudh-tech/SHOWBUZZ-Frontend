@@ -57,11 +57,11 @@ const AdminUsersList = () => {
   }
 
   return (
-    <>
+    <div className='pt-16'>
       {
         open &&
         <div className='absolute inset-0 bg-black/60 w-full h-full flex items-center z-10 justify-center'>
-          <div className='flex flex-col gap-4 items-center align-middle bg-white w-1/6 p-6'>
+          <div className='flex flex-col gap-4 items-center align-middle bg-white w-1/3 p-6'>
             <h1 className='text-xl'> {newStatus === 'blocked' ? 'Are you sure you want to block this person?' : 'Are you sure you want to unblock this person?'}</h1>
             <div className='flex gap-6 text-2xl'>
             <button onClick={positiveAction} className='bg-green-600 px-3 py-2 rounded-md'>Yes 👍</button>
@@ -70,7 +70,7 @@ const AdminUsersList = () => {
           </div>
         </div>
       }
-      <h1 className='text-white text-3xl ms-14 font-roboto font-bold mt-4'>USERS LIST</h1>
+      <h1 className='text-white text-3xl ms-14 text-center font-roboto font-bold mt-4'>USERS LIST</h1>
       <div className='w-full flex justify-center'>
         <TableContainer className='flex justify-center ms-8 mt-8' component={Paper} style={{ width: '95%' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -114,7 +114,7 @@ const AdminUsersList = () => {
       <Stack alignItems={'center'} spacing={2}>
         <Pagination onChange={(_, page) => setActivePage(page)} count={totalPage} variant="outlined" color="primary" />
       </Stack>
-    </>
+    </div>
   );
 };
 

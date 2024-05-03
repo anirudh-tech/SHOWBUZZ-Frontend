@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react"
 import { AiOutlineEdit } from "react-icons/ai"
 import fetchData from "../../utils/fetchData"
 import toast from "react-hot-toast"
-import BottomDrawer from "../../components/Drawer/BottomDrawer"
 
 const UserSeatSelection = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -87,7 +86,7 @@ const UserSeatSelection = () => {
     videoRef.current?.play()
   }, [videoRef])
   return (
-    <div className={`${openDraw ? 'h-[90vh] overflow-y-hidden' : ''} `}>
+    <div className={`${openDraw ? 'h-[90vh] overflow-y-hidden' : ''} pt-20`}>
       {
         isOpen &&
         <Modal open={isOpen}>
@@ -146,11 +145,11 @@ const UserSeatSelection = () => {
       </div>
         {
           openDraw &&
-          <BottomDrawer>
-            <div className="bg-white py-6 rounded-md text-center">
+          
+            <div className="bg-white absolute bottom-0 py-6 rounded-md text-center">
               <button onClick={() => handlePay()} className="bg-red-500 px-20 py-3 rounded-lg text-white">Pay ₹{totalAmount}</button>
             </div>
-          </BottomDrawer>
+          
         }
     </div>
   )

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import SearchBar from '../SearchBar/SearchBar'
+import { useEffect, useState } from 'react'
+// import SearchBar from '../SearchBar/SearchBar'
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import SideBar from '../SideBar/SideBar';
 
@@ -14,6 +14,7 @@ function Navbar() {
         }, 250);
 
         return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [count]);
 
     const timer = () => {
@@ -22,31 +23,30 @@ function Navbar() {
     }
 
     return (
-        <>
-            {
-                show && <>
-                    <SideBar onClick={() => setShow(!show)} />
-                </>
-            }
-            <div className='bg-transparent sticky top-0 z-50 w-full flex justify-between'>
-                <h1 className='font-bebas-neue items-center p-3 text-blue-600 text-4xl text-shadow-md'>
-                    {/* <span className='text-5xl tracking-wider text-red-600'>S</span> */}
-                    SHOWBU<span className={` tracking-wider transition-all duration-500 rotate-180  ${count % 2 == 0 ? 'text-green-600' : 'text-red-600  duration-700'}`}>ZZ</span>
-                </h1>
-                <SearchBar />
-                <div className='flex justify-between items-center gap-x-5 me-4'>
-                    <h1 className='text-white p-2'>Profile</h1>
-                    <button onClick={() => {
-                        setShow(!show)
-                    }} className='rounded-full  p-2'>
-                        {
-                            show ? (<AiOutlineClose className='text-white' />) : (<AiOutlineMenu className='text-white' />)
-                        }
+            <>
+                {
+                    show && <>
+                        <SideBar onClick={() => setShow(!show)} />
+                    </>
+                }
+                <div className='bg-[rgba(0,0,0,0.2)] backdrop-blur-lg fixed top-0 z-50 w-full flex justify-between'>
+                    <h1 className='font-bebas-neue items-center p-3 text-yellow-600 text-4xl text-shadow-md'>
+                        SHOWBUZZ
+                    </h1>
+                    {/* <SearchBar /> */}
+                    <div className='flex justify-between items-center gap-x-5 me-4'>
+                        <h1 className='text-white p-2'>Profile</h1>
+                        <button onClick={() => {
+                            setShow(!show)
+                        }} className='rounded-full  p-2'>
+                            {
+                                show ? (<AiOutlineClose className='text-white' />) : (<AiOutlineMenu className='text-white' />)
+                            }
 
-                    </button>
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </>
+            </>
     )
 }
 

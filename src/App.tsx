@@ -10,7 +10,7 @@ import Navbar from "./components/navbar/Navbar";
 import UserHome from "./pages/User-Pages/UserHome";
 import { useEffect } from "react";
 import { AppDispatch } from "./redux/store";
-import { fetchUser } from "./redux/actions/userActions";
+import { fetchUser, listUser } from "./redux/actions/userActions";
 import TheatreHome from "./pages/Theatre-Pages/TheatreHome";
 import NotFound from "./pages/NotFound";
 import UserSettings from "./pages/User-Pages/UserSettings";
@@ -36,6 +36,9 @@ import UserPaymentSuccess from "./pages/User-Pages/UserPaymentSuccess";
 import UserTicketsPage from "./pages/User-Pages/UserTicketsPage";
 import AdminAddOttMovies from "./pages/Admin-Pages/AdminAddOttMovies";
 import AdminOttMovies from "./pages/Admin-Pages/AdminOttMovies";
+import AdminTicketBookingList from "./pages/Admin-Pages/AdminTicketBookingList";
+import TheatreBookingList from "./pages/Theatre-Pages/TheatreBookingList";
+import UserEditProfile from "./pages/User-Pages/UserEditProfile";
 
 
 
@@ -76,7 +79,7 @@ function App() {
     );
   }
 
-  if (user?.role === 'user') {
+  if (user?.role === 'user' && user?.status === "active") {
     return (
       <>
         <Toaster position="top-center" />
@@ -92,7 +95,8 @@ function App() {
           <Route path='/paymentSuccess' element={user ? <UserPaymentSuccess /> : <Navigate to={'/login'} />} />
           <Route path='/my-tickets' element={user ? <UserTicketsPage /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/settings" element={<UserSettings />} />
+          <Route path="/settings" element={user ?<UserSettings /> : <Navigate to={'/login'} />} />
+          <Route path="/settings/edit-profile" element={user ?<UserEditProfile /> : <Navigate to={'/login'} />} />
         </Routes>
       </>
     );
@@ -112,6 +116,7 @@ function App() {
           <Route path="/theatre/settings" element={<TheatreProtectedRoute element={<TheatreSettings />} />} />
           <Route path="/theatre/movies" element={<TheatreProtectedRoute element={<TheatreMovies />} />} />
           <Route path="/theatre/selectMovies" element={<TheatreProtectedRoute element={<TheatreSelectMovies />} />} />
+          <Route path="/theatre/bookings-list" element={<TheatreProtectedRoute element={<TheatreBookingList />} />} />
           <Route path="/theatre/seatLayout/:screenName/:id" element={<TheatreProtectedRoute element={<TheatreSeatLayout />} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -136,6 +141,7 @@ function App() {
           <Route path="/admin/settings" element={user ? <AdminSettings /> : <Navigate to={'/'} />} />
           <Route path="/admin/stream-movies" element={user ? <AdminOttMovies /> : <Navigate to={'/'} />} />
           <Route path="/admin/add-stream-movies" element={user ? <AdminAddOttMovies /> : <Navigate to={'/'} />} />
+          <Route path="/admin/ticket-booking-list" element={user ? <AdminTicketBookingList /> : <Navigate to={'/'} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </>

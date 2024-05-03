@@ -34,14 +34,14 @@ const UserTicketsPage = () => {
 
   }
   return (
-    <div>
+    <div className="pt-20">
       <div>
         <h1 className="text-3xl text-white font-bold text-center"> Tickets</h1>
         <div className="flex gap-6 justify-center pt-6">
-          <button className={`py-2 px-4 rounded-lg border-white border-2 text-white ${selected === 'upcoming' ? 'bg-green-500' : ''}`} onClick={() => setSelected('upcoming')}>
+          <button className={`py-2 px-4 rounded-lg  text-white ${selected === 'upcoming' ? 'bg-green-500 border-white border-2' : ''}`} onClick={() => setSelected('upcoming')}>
             Upcoming
           </button>
-          <button className={`py-2 px-4 rounded-lg border-white -2 text-white ${selected === 'expired' ? 'bg-green-500' : ''}`} onClick={() => setSelected('expired')}>
+          <button className={`py-2 px-4 rounded-lg border-white -2 text-white ${selected === 'expired' ? 'bg-green-500 border-white border-2' : ''}`} onClick={() => setSelected('expired')}>
             Expired
           </button>
         </div>
@@ -94,8 +94,8 @@ const UserTicketsPage = () => {
                 <div className="flex justify-center">
                   <QRCode size={170} value={JSON.stringify(ticket)} />
                 </div>
-                <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3 text-2xl"> Download Ticket
-                </button>
+                {/* <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3 text-2xl"> Download Ticket
+                </button> */}
               </div>
             ))
           }

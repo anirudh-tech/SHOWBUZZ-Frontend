@@ -4,6 +4,7 @@ export interface UserState {
   user: UserData;
   loading: boolean;
   error: null | string;
+  userDetails: UserData;
 }
 export interface AdminState {
   theatre: AdminData;
@@ -18,6 +19,7 @@ export interface UserData {
   email: string;
   role?: string | null;
   message: string;
+  status: string;
 }
 
 export interface AdminData {

@@ -1,4 +1,3 @@
-import { AiFillSetting } from 'react-icons/ai'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../redux/actions/userActions';
@@ -17,11 +16,10 @@ function AdminSettings() {
     };
 
     return (
-        <div className=''>
+        <div className='pt-16'>
             <div className=''>
-                <div className='h-16 p-4  bg-gray-800 flex text-3xl gap-3'>
-                    <AiFillSetting className='text-white ' />
-                    <h1 className='font-roboto text-white '>SETTINGS</h1>
+                <div className='h-16 p-4 justify-center flex text-3xl gap-3'>
+                    <h1 className=' text-white '>SETTINGS</h1>
                 </div>
             </div>
             <div className='flex flex-col p-16 gap-y-8 items-center justify-items'>

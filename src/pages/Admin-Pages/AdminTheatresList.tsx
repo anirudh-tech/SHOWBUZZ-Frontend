@@ -39,6 +39,7 @@ const AdminTheatresList = () => {
         }
     })
 },[activePage, status, open])
+
   const filteredTheatresData = theatres?.map((theatre: ITheatre) => ({
     _id: theatre._id,
     name: theatre.username,
@@ -67,7 +68,7 @@ const AdminTheatresList = () => {
 
   const tableHead = ['Theatre name', 'Total Amount Paid', 'Date Of Joining', 'Status'];
   return (
-    <>
+    <div className='pt-16'>
     {
         open &&
         <div className='absolute inset-0 bg-black/60 w-full h-full flex items-center z-10 justify-center'>
@@ -80,7 +81,7 @@ const AdminTheatresList = () => {
           </div>
         </div>
       }
-      <h1 className='text-white text-3xl ms-14  font-roboto font-bold mt-4'>THEATRES LIST</h1>
+      <h1 className='text-white text-3xl ms-14  text-center font-bold mt-4'>THEATRES LIST</h1>
       <div className='w-full flex justify-center'>
         <TableContainer className='flex justify-center ms-8 mt-8' component={Paper} style={{ width: '95%' }}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -124,7 +125,7 @@ const AdminTheatresList = () => {
       <Stack alignItems={'center'} spacing={2}>
         <Pagination onChange={(_, page) => setActivePage(page)} count={totalPage} variant="outlined" color="primary" />
       </Stack>
-    </>
+    </div>
   )
 }
 

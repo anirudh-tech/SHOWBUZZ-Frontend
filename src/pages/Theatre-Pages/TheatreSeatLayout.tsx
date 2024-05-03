@@ -29,7 +29,7 @@ const TheatreSeatLayout = () => {
       seats: generateSeats(Array(rows).fill(4), columns),
     };
     setTheatreData(data);
-  }, [rows, columns]);
+  }, [rows, columns, screens]);
 
   console.log(theatreData, 'seats inside state')
   const handleColumnChange = (index: number, value: number) => {
@@ -65,7 +65,7 @@ const TheatreSeatLayout = () => {
   }
 
   return (
-    <div className='ps-3 overflow-x-hidden'>
+    <div className='ps-3 pt-20 overflow-x-hidden'>
       <div className='flex flex-col items-center justify-center'>
         <div className='shadow-lg  shadow-orange-300 text-center cursor-pointer bg-white rounded-t-full rounded-md w-1/3 h-2 py-3 flex flex-col justify-center items-center'>
         </div>

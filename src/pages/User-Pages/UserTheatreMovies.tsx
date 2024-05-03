@@ -5,9 +5,12 @@ import TheatreMovieCard from '../../components/MovieCard/TheatreMovieCard';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 const UserTheatreMovies = () => {
+  
+
   const { data: movies } = useFetchData('/movie/listTheatreMovies');
   return (
     <div className='w-full'>
+      
       {
         movies.length ? (
           <>

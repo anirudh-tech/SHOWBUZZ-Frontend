@@ -96,6 +96,24 @@ export const getAllTheatres = createAsyncThunk('theatre/allTheatres', async({pag
   )
 })
 
+export const getAllTickets = createAsyncThunk('payment/allTickets', async({page, limit}: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/payment/allTickets?page=${page}&limit=${limit}`,
+    config,
+    rejectWithValue
+  )
+})
+
+export const getAllTicketsInTheatres: any = createAsyncThunk('payment/getAllTicketsInTheatres', async({page, limit,id}: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/payment/getAllTicketsInTheatres/${id}?page=${page}&limit=${limit}`,
+    config,
+    rejectWithValue
+  )
+})
+
 export const updateUserStatus = createAsyncThunk('user/updateStatus', async (status: any | null , {rejectWithValue}) => {
   return reduxRequest(
     "post",

@@ -42,9 +42,19 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
     }
 })
 
+export const listUser = createAsyncThunk("user/listUser", async (id : any, {rejectWithValue}) => {
+    try {
+        const {data} = await axios.get(`${baseUrl}/user/listUser/${id}`,config)
+        console.log("🚀 ~ file: userActions.ts:54 ~ listUser ~ data.data:", data.data)
+        return data.data
+    } catch (err) {
+        const axiosError = err as AxiosError<ApiError>;
+        return handleError(axiosError, rejectWithValue);
+    }
+})
 export const updateUser = createAsyncThunk("user/updateUser", async (userCredentials : any, {rejectWithValue}) => {
     try {
-        const {data} = await axios.post(`${baseUrl}/auth/updateUser`,userCredentials,config)
+        const {data} = await axios.post(`${baseUrl}/user/updateUser`,userCredentials,config)
         return data.user
     } catch (err) {
         const axiosError = err as AxiosError<ApiError>;

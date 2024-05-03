@@ -12,5 +12,5 @@ export  const AddMoviesValidationSchema = yup.object().shape({
     banner: yup
     .mixed()
     .required('Image is required'),
-    cast: yup.string().required('Language is required!'),
+    cast: yup.string().required('Cast is required!'),
 })

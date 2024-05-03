@@ -77,13 +77,15 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
                 </div>
               </div>
 
-              <button onClick={() => handleClick(movie)} className='bg-red-600 absolute top-2 right-2 flex gap-1  p-2 rounded-md text-white hover:bg-red-900'>Edit <AiFillEdit className='mt-1' /> </button>
               {movie.status === 'active' ? (
+                <>
                 <button onClick={() => handleDeleteClick(movie._id, movie.status)} className='bg-gray-600 flex gap-1 absolute top-14 right-2 p-2 rounded-md text-white hover:bg-red-900'>
                   Delete <AiOutlineDelete className='mt-0.5' />
                 </button>
+                  <button onClick={() => handleClick(movie)} className='bg-red-600 absolute top-2 right-2 flex gap-1  p-2 rounded-md text-white hover:bg-red-900'>Edit <AiFillEdit className='mt-1' /> </button>
+                </>
               ) : (
-                <button onClick={() => handleDeleteClick(movie._id, movie.status)} className='bg-green-600 absolute top-14 right-2 p-2 rounded-md text-white hover:bg-green-900'>
+                <button onClick={() => handleDeleteClick(movie._id, movie.status)} className='bg-green-600 absolute top-2 right-2 p-2 rounded-md text-white hover:bg-green-900'>
                   Restore
                 </button>
               )}            </div>

@@ -126,30 +126,32 @@ function TheatreSettings() {
                 screen && (
                     <>
                         <RightDrawer open={screen} handleClose={handleClose} >
-                            <div className='bg-black h-screen flex'>
-                                <div className='w-1/2'>
+                            <div className='bg-gray-900 p-3 h-screen flex justify-center'>
+                                <div className=''>
                                     {
                                         !screenNames ? (
                                             <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>No Screens found</h1>
                                         ) : (
-                                            <>
-                                                <h1 className='font-roboto font-semibold text-white text-3xl text-center pt-5'>ADDED SCREENS</h1>
+                                            <div className='flex flex-col items-center justify-center '>
+                                                <div>
+                                                <h1 className=' font-semibold text-white text-3xl text-center pt-5'>ADDED SCREENS</h1>
+                                                </div>
                                                 <div className='flex flex-col gap-6 mt-5 justify-center items-center '>
                                                     {screenNames.map((screen: IScreen, index: number) => (
-                                                        <div className='rounded-md flex flex-col w-1/3 px-4 items-center bg-slate-500' key={index}>
+                                                        <div className='rounded-md flex flex-col  px-4 items-center bg-slate-500' key={index}>
                                                         <span className="text-white font-bold">{screen.screenName}</span>
                                                         <span className="text-white font-bold">₹{screen.seatCost}</span>
                                                         </div>
                                                     ))}
                                                 </div>
-                                            </>
+                                            </div>
                                         )
                                     }
                                     <div className='mt-4 text-center'>
                                         <button onClick={() => setInput(!input)} className='bg-red-500 text-sm text-white px-3 py-2 rounded-md'>Add Screen</button>
                                     </div>
                                 </div>
-                                <div className='w-1/2 flex mt-20'>
+                                <div className=' flex mt-20'>
                                     {
                                         input ? (
                                             <div className='text-center flex flex-col gap-2 items-center'>
@@ -193,9 +195,9 @@ function TheatreSettings() {
                     <MdAirlineSeatReclineNormal className='text-white mt-1' />
                     <h1 className='font-roboto text-white '>Choose the screens</h1>
                 </div>
-                <div className='h-16 p-4 w-1/2   bg-gray-800 flex text-lg gap-3'>
+                <div onClick={handleLogout}  className='h-16 p-4 w-1/2 cursor-pointer  bg-gray-800 flex text-lg gap-3'>
                     <BiExit className='text-white mt-1.5' />
-                    <button onClick={handleLogout} className='font-roboto text-white '>Logout</button>
+                    <button className='font-roboto text-white '>Logout</button>
                 </div>
             </div>
         </div>

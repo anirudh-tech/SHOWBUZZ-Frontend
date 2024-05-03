@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUser, userLogin, userSignup, logout, updateUser } from "../../actions/userActions";
+import { fetchUser, userLogin, userSignup, logout, updateUser, listUser } from "../../actions/userActions";
 import { IUserSignupData } from "../../../interface/IUserSignup";
 import { IUserLogin } from "../../../interface/IUserLogin";
 
@@ -11,6 +11,7 @@ const userSlice = createSlice({
         user: null as IUserSignupData | null,
         error: null as string | null,
         loading: false as boolean,
+        userDetails: null as IUserSignupData | null,
     },
     reducers: {
         makeErrorDisable: (state) => {
@@ -77,10 +78,23 @@ const userSlice = createSlice({
         })
         .addCase(updateUser.fulfilled, (state, action: any) => {
             state.loading = false;
-            state.user = action.payload as IUserLogin;
+            state.userDetails = action.payload as IUserLogin;
             state.error = null;
         })
         .addCase(updateUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(listUser.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(listUser.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.userDetails = action.payload as IUserLogin;
+            state.error = null;
+        })
+        .addCase(listUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })

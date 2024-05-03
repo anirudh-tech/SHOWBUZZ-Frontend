@@ -47,15 +47,15 @@ const TheatreBanner = ({ movies }: Props) => {
                   <SwiperSlide key={movie._id}>
                     <div className='w-full'>
                       <img className='w-full h-[550px] object-cover' src={movie.banner} alt={movie.title} />
-                      <div className='absolute inset-0 bg-black/20 w-full h-full'></div>
-                      <div className='absolute top-1/4 left-36 w-fit'>
-                        <h1 className='text-white font-roboto text-4xl font-bold'>{movie.title}</h1>
-                        <h1 className='text-lg pt-6 py-2 font-bold text-white'>DIRECTED BY :<span className='px-3 font-roboto font-normal'>{movie.director}</span></h1>
-                        <h1 className='text-lg font-bold py-2 text-white'>GENRE :<span className='px-3 font-roboto font-normal'>{movie.genre}</span></h1>
-                        <h1 className='text-lg font-bold py-2 text-white'>CAST :<span className='px-3 font-roboto font-normal'>{movie.cast}</span></h1>
+                      <div className='absolute bg-gradient-to-t from-[rgba(0,0,0,0.6)]  w-full h-1/2  bottom-0'></div>
+                      <div className='absolute top-[40%] left-36 w-fit'>
+                        <h1 className='text-white  text-4xl font-semibold'>{movie.title}</h1>
+                        <h1 className='text-lg pt-6 py-2 font-semibold text-white'>DIRECTED BY :<span className='px-3  font-normal'>{movie.director}</span></h1>
+                        <h1 className='text-lg font-semibold py-2 text-white'>GENRE :<span className='px-3 font-normal'>{movie.genre}</span></h1>
+                        <h1 className='text-lg font-semibold py-2 text-white'>CAST :<span className='px-3  font-normal'>{movie.cast}</span></h1>
                         <button onClick={() => {
                           navigate(`/selectTheatre/${movie._id}`);
-                        }} className='bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3'>Book now</button>
+                        }} className='bg-[rgba(0,0,0,0.2)] backdrop-blur-lg rounded-md px-6 text-white p-3'>Book now</button>
                       </div>
                     </div>
                   </SwiperSlide>

@@ -37,6 +37,7 @@ function SideBar(props: React.ComponentProps<typeof NavLink> | AdditionalProps) 
     { to: '/admin/users-list', icon: <FiSettings />, name: 'Users List' },
     { to: '/admin/subscribers-list', icon: <FiSettings />, name: 'Subscribers List' },
     { to: '/admin/theatres-list', icon: <FiSettings />, name: 'Theatres List'},
+    { to: '/admin/ticket-booking-list', icon: <FiSettings />, name: 'Tickets Booking List'},
     { to: '/admin/settings', icon: <FiSettings />, name: 'Settings'},
   ] : []
   return (

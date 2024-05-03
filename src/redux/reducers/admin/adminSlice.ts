@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IMovie, ITheatre } from "../../../interface/ITheatreMovie";
-import { addScreen, addTheatreMovie, getAllMovies, getAllTheatres, getAllUsers, listAllTheatre, listTheatre, selectMovies } from "../../actions/adminActions";
+import { addScreen, addTheatreMovie, getAllMovies, getAllTheatres, getAllTickets, getAllUsers, listAllTheatre, listTheatre, selectMovies } from "../../actions/adminActions";
 
 const adminSlice : any = createSlice({
   name: "adminSlice",
@@ -9,6 +9,7 @@ const adminSlice : any = createSlice({
     theatreDetails: null as ITheatre | null,
     theatre: null as IMovie | null,
     movies: null as IMovie[] | null,
+    tickets: null as any,
     users: null as any,
     error: null as string | null,
     loading: false as boolean,
@@ -96,6 +97,19 @@ const adminSlice : any = createSlice({
       state.loading = false;
     })
     .addCase(getAllTheatres.rejected,(state, action) => {
+      state.error =  action.payload as string;
+      state.loading = false;
+    })
+    .addCase(getAllTickets.pending,(state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getAllTickets.fulfilled,(state, action) => {
+      console.log("🚀 ~ file: adminSlice.ts:81 ~ .addCase ~ action:", action)
+      state.tickets =  action.payload.tickets;
+      state.loading = false;
+    })
+    .addCase(getAllTickets.rejected,(state, action) => {
       state.error =  action.payload as string;
       state.loading = false;
     })
