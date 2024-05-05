@@ -33,7 +33,7 @@ function SideBar(props: React.ComponentProps<typeof NavLink> | AdditionalProps) 
   ] : (role === 'admin') ? [
     { to: '/admin/dashboard', icon: <RiDashboardLine />, name: 'Dashboard' },
     { to: '/admin/theatre-movies', icon: <BiUser />, name: 'Theatre Movies' },
-    { to: '/admin/stream-movies', icon: <BiHistory />, name: 'Stream Movies ' },
+    { to: '/admin/stream-movies', icon: <BiHistory />, name: 'Stream Movies' },
     { to: '/admin/users-list', icon: <FiSettings />, name: 'Users List' },
     { to: '/admin/subscribers-list', icon: <FiSettings />, name: 'Subscribers List' },
     { to: '/admin/theatres-list', icon: <FiSettings />, name: 'Theatres List'},

@@ -10,7 +10,7 @@ import Navbar from "./components/navbar/Navbar";
 import UserHome from "./pages/User-Pages/UserHome";
 import { useEffect } from "react";
 import { AppDispatch } from "./redux/store";
-import { fetchUser, listUser } from "./redux/actions/userActions";
+import { fetchUser } from "./redux/actions/userActions";
 import TheatreHome from "./pages/Theatre-Pages/TheatreHome";
 import NotFound from "./pages/NotFound";
 import UserSettings from "./pages/User-Pages/UserSettings";
@@ -39,6 +39,7 @@ import AdminOttMovies from "./pages/Admin-Pages/AdminOttMovies";
 import AdminTicketBookingList from "./pages/Admin-Pages/AdminTicketBookingList";
 import TheatreBookingList from "./pages/Theatre-Pages/TheatreBookingList";
 import UserEditProfile from "./pages/User-Pages/UserEditProfile";
+import UserCommunity from "./pages/User-Pages/UserCommunity";
 
 
 
@@ -94,6 +95,7 @@ function App() {
           <Route path='/selectTheatre/:id/seat-selection/checkout' element={user ? <UserCheckout /> : <Navigate to={'/login'} />} />
           <Route path='/paymentSuccess' element={user ? <UserPaymentSuccess /> : <Navigate to={'/login'} />} />
           <Route path='/my-tickets' element={user ? <UserTicketsPage /> : <Navigate to={'/login'} />} />
+          <Route path='/community' element={user ? <UserCommunity /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={user ?<UserSettings /> : <Navigate to={'/login'} />} />
           <Route path="/settings/edit-profile" element={user ?<UserEditProfile /> : <Navigate to={'/login'} />} />

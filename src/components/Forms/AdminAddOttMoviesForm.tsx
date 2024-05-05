@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader'
 import toast, { Toaster } from 'react-hot-toast';
+import VideoUpload from '../General/VideoUpload';
 
 const initialValues = {
   title: '',
@@ -57,7 +58,7 @@ const AdminAddOttMoviesForm = () => {
 
       setIsLoading(true)
       const banner = await imageUpload(values.banner);
-      if ( banner) {
+      if (banner) {
         const movieData: any = {
           title: values.title,
           director: values.director,
@@ -69,7 +70,7 @@ const AdminAddOttMoviesForm = () => {
           dateOfRelease: new Date()
         };
         console.log(movieData, 'movieData');
-        const response = await dispatch (addTheatreMovie(movieData))
+        const response = await dispatch(addTheatreMovie(movieData))
         console.log(response, '----')
         setIsLoading(false)
         action.resetForm();
@@ -81,7 +82,7 @@ const AdminAddOttMoviesForm = () => {
     }
   })
   return (
-    <>
+    < div className=''>
       <Toaster />
       {
         isLoading ? (
@@ -191,7 +192,7 @@ const AdminAddOttMoviesForm = () => {
 
             <div className='mb-4 flex justify-evenly'>
               <div className='w-1/3'>
-                <ImageUpload id='image' title='Click to insert Image' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
+                <VideoUpload id='image' title='Click to upload Video' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
               </div>
               <div className='w-1/3'>
                 <ImageUpload id='banner' title='Click to insert Banner' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
@@ -204,7 +205,7 @@ const AdminAddOttMoviesForm = () => {
         )
       }
 
-    </>
+    </div>
   )
 }
 
