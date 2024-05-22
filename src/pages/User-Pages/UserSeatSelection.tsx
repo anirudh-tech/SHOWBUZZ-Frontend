@@ -22,8 +22,6 @@ const UserSeatSelection = () => {
   const array = Array(9).fill(null).map((_, index) => index + 1);
   const timeId = state.time._id
   const time = timeData?.seatsAvailable
-  console.log("🚀 ~ file: UserSeatSelection.tsx:26 ~ UserSeatSelection ~ timeData:", timeData)
-  console.log("🚀 ~ file: UserSeatSelection.tsx:26 ~ UserSeatSelection ~ time:", time)
   useEffect(() => {
     const fetchingData = async () => {
       const { data } = await fetchData(`/theatre/times/${timeId}`)

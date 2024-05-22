@@ -40,6 +40,7 @@ import AdminTicketBookingList from "./pages/Admin-Pages/AdminTicketBookingList";
 import TheatreBookingList from "./pages/Theatre-Pages/TheatreBookingList";
 import UserEditProfile from "./pages/User-Pages/UserEditProfile";
 import UserCommunity from "./pages/User-Pages/UserCommunity";
+import MuxStreaming from "./components/MuxStreaming";
 
 
 
@@ -51,7 +52,9 @@ function App() {
   // const { state } = useLocation()
 
   useEffect(() => {
-    dispatch(listTheatre(id))
+    if(role == "theatre"){
+      dispatch(listTheatre(id))
+    }
     dispatch(fetchUser());
   }, [id]);
 
@@ -96,6 +99,7 @@ function App() {
           <Route path='/paymentSuccess' element={user ? <UserPaymentSuccess /> : <Navigate to={'/login'} />} />
           <Route path='/my-tickets' element={user ? <UserTicketsPage /> : <Navigate to={'/login'} />} />
           <Route path='/community' element={user ? <UserCommunity /> : <Navigate to={'/login'} />} />
+          <Route path='/stream' element={user ? <MuxStreaming /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={user ?<UserSettings /> : <Navigate to={'/login'} />} />
           <Route path="/settings/edit-profile" element={user ?<UserEditProfile /> : <Navigate to={'/login'} />} />

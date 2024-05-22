@@ -6,7 +6,7 @@
     @apply flex px-3 py-6 rounded items-center gap-4 active:bg-gray-200 hover:text-blue-600 hover:bg-gray-300;
   }
   body {
-    @apply bg-zinc-900 h-screen font-roboto tracking-widest ;
+    @apply bg-zinc-900 w-full min-h-screen  font-roboto tracking-widest ;
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -17,6 +17,10 @@
   }
   .swiper-button-prev{
     @apply text-gray-400
+  }
+
+  .scrollBar::-webkit-scrollbar{
+    display: none;
   }
 
   

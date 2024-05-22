@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUser, userLogin, userSignup, logout, updateUser, listUser } from "../../actions/userActions";
+import { fetchUser, userLogin, userSignup, logout, updateUser, listUser, createGroup, listGroups, getMessage, joinGroup } from "../../actions/userActions";
 import { IUserSignupData } from "../../../interface/IUserSignup";
 import { IUserLogin } from "../../../interface/IUserLogin";
 
@@ -12,6 +12,8 @@ const userSlice = createSlice({
         error: null as string | null,
         loading: false as boolean,
         userDetails: null as IUserSignupData | null,
+        groups: null as any | null,
+        messages: null as any | null
     },
     reducers: {
         makeErrorDisable: (state) => {
@@ -95,6 +97,58 @@ const userSlice = createSlice({
             state.error = null;
         })
         .addCase(listUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(createGroup.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(createGroup.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.groups = action.payload as string[];
+            state.error = null;
+        })
+        .addCase(createGroup.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(listGroups.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(listGroups.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.groups = action.payload as any;
+            state.error = null;
+        })
+        .addCase(listGroups.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(getMessage.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getMessage.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.messages = action.payload as any;
+            state.error = null;
+        })
+        .addCase(getMessage.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        })
+        .addCase(joinGroup.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(joinGroup.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.groups = action.payload as any;
+            state.error = null;
+        })
+        .addCase(joinGroup.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         })

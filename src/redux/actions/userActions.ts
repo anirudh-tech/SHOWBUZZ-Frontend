@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { baseUrl } from "../../config/constants";
 import { ApiError, config, handleError } from "../../config/configuration";
 import { IUserLogin } from "../../interface/IUserLogin";
+import { reduxRequest } from "../../config/api";
 
 
 export const userSignup = createAsyncThunk('user/userSignup', async (userCredentials: IUserSignupData, {rejectWithValue}) => {
@@ -61,6 +62,64 @@ export const updateUser = createAsyncThunk("user/updateUser", async (userCredent
         return handleError(axiosError, rejectWithValue);
     }
 })
+
+export const createGroup = createAsyncThunk('chat/createGroup', async (body: any | null , {rejectWithValue}) => {
+    return reduxRequest(
+      "post",
+      `/chat/chat/createGroup`,
+      config,
+      rejectWithValue,
+      body
+    )
+  })
+
+export const listGroups = createAsyncThunk('chat/listGroups', async (_ , {rejectWithValue}) => {
+    return reduxRequest(
+      "get",
+      `/chat/chat/listGroups`,
+      config,
+      rejectWithValue,
+    )
+  })
+
+export const joinGroup = createAsyncThunk('chat/joinGroup', async (body: any , {rejectWithValue}) => {
+    return reduxRequest(
+      "put",
+      `/chat/chat/joinGroup`,
+      config,
+      rejectWithValue,
+      body
+    )
+  })
+
+export const getMessage = createAsyncThunk('chat/getMessage', async (groupId: any , {rejectWithValue}) => {
+    return reduxRequest(
+      "post",
+      `/chat/chat/getMessage`,
+      config,
+      rejectWithValue,
+      groupId
+    )
+  })
+
+export const listMessages = createAsyncThunk('chat/listMessages', async (chatId: any , {rejectWithValue}) => {
+    return reduxRequest(
+      "get",
+      `/chat/message/listMessages/${chatId}`,
+      config,
+      rejectWithValue,
+    )
+  })
+
+export const sendMessage = createAsyncThunk('chat/sendMessage', async (body: any , {rejectWithValue}) => {
+    return reduxRequest(
+      "post",
+      `/chat/message/send-message`,
+      config,
+      rejectWithValue,
+      body
+    )
+  })
 
 export const logout = createAsyncThunk("user/logout", async () => {
     try {

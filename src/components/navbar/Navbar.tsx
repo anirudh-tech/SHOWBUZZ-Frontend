@@ -30,7 +30,7 @@ function Navbar() {
                     </>
                 }
                 <div className='bg-[rgba(0,0,0,0.2)] backdrop-blur-lg fixed top-0 z-50 w-full flex justify-between'>
-                    <h1 className='font-bebas-neue items-center p-3 text-yellow-600 text-4xl text-shadow-md'>
+                    <h1 className='bg-gradient-to-r p-3 from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent text-3xl font-playfair'>
                         SHOWBUZZ
                     </h1>
                     {/* <SearchBar /> */}

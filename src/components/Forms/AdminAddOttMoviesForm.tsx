@@ -1,24 +1,21 @@
 import { useFormik } from 'formik';
-import { AddMoviesValidationSchema } from '../../schemas/AddMoviesValidationSchema';
 import ImageUpload from '../General/ImageUpload';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
-import { addTheatreMovie } from '../../redux/actions/adminActions';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader'
 import toast, { Toaster } from 'react-hot-toast';
 import VideoUpload from '../General/VideoUpload';
+import { AddOttMoviesValidationSchema } from '../../schemas/AddOttMoviesValidationSchema';
 
 const initialValues = {
   title: '',
   director: '',
   genre: '',
-  languagesAvailable: '',
   video: '',
   banner: '',
   cast: '',
-  subscribe: '',
 }
 
 const AdminAddOttMoviesForm = () => {
@@ -53,9 +50,10 @@ const AdminAddOttMoviesForm = () => {
   }
   const { values, errors, touched, handleBlur, handleChange, setFieldValue, handleSubmit } = useFormik({
     initialValues,
-    validationSchema: AddMoviesValidationSchema,
+    validationSchema: AddOttMoviesValidationSchema,
     onSubmit: async (values, action) => {
-
+      console.log("🚀 ~ file: AdminAddOttMoviesForm.tsx:55 ~ onSubmit: ~ values:", values)
+      
       setIsLoading(true)
       const banner = await imageUpload(values.banner);
       if (banner) {
@@ -63,18 +61,16 @@ const AdminAddOttMoviesForm = () => {
           title: values.title,
           director: values.director,
           genre: values.genre,
-          languagesAvailable: values.languagesAvailable,
           banner: banner,
           cast: values.cast,
-          type: "theatre",
-          dateOfRelease: new Date()
+          video: values.video
         };
         console.log(movieData, 'movieData');
-        const response = await dispatch(addTheatreMovie(movieData))
-        console.log(response, '----')
+        const response = await dispatch(addOttMovie(movieData))
+        // console.log(response, '----')
         setIsLoading(false)
         action.resetForm();
-        navigate('/admin/theatre-movies')
+        navigate('/admin/add-stream-movies')
       } else {
         toast.error('Enter Valid Image')
         setIsLoading(false)
@@ -151,26 +147,6 @@ const AdminAddOttMoviesForm = () => {
                 />
                 {errors.genre && touched.genre ? (<p className='text-red-700'>{errors.genre}</p>) : null}
               </div>
-            </div>
-
-
-            <div className='mb-4 flex justify-evenly'>
-              <div className='w-1/3'>
-                <label htmlFor='languages' className='block text-sm font-medium text-white'>
-                  Languages Available:
-                </label>
-                <input
-                  type='text'
-                  id='languagesAvailable'
-                  name='languagesAvailable'
-                  className='mt-1 p-2 w-full border rounded-md'
-                  placeholder='Enter the languages Available'
-                  value={values.languagesAvailable}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                {errors.languagesAvailable && touched.languagesAvailable ? (<p className='text-red-700'>{errors.languagesAvailable}</p>) : null}
-              </div>
               <div className='w-1/3'>
                 <label htmlFor='cast' className='block text-sm font-medium text-white'>
                   Cast:
@@ -188,11 +164,9 @@ const AdminAddOttMoviesForm = () => {
                 {errors.cast && touched.cast ? (<p className='text-red-700'>{errors.cast}</p>) : null}
               </div>
             </div>
-
-
             <div className='mb-4 flex justify-evenly'>
               <div className='w-1/3'>
-                <VideoUpload id='image' title='Click to upload Video' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
+                <VideoUpload id='video' title='Click to upload Video' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />
               </div>
               <div className='w-1/3'>
                 <ImageUpload id='banner' title='Click to insert Banner' handleBlur={handleBlur} setFieldValue={setFieldValue} errors={errors} touched={touched} />

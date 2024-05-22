@@ -13,7 +13,7 @@ const Modal = ({handleClose, open, children}: any) => {
         aria-describedby="alert-dialog-description"
         maxWidth="xl"
       >
-        <DialogContent className='bg-slate-900'>
+        <DialogContent className='bg-slate-600 '>
           <DialogContentText id="alert-dialog-description">
             {children}
           </DialogContentText>

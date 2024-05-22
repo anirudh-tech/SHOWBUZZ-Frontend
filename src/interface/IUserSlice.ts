@@ -5,6 +5,8 @@ export interface UserState {
   loading: boolean;
   error: null | string;
   userDetails: UserData;
+  groups: any;
+  messages: any;
 }
 export interface AdminState {
   theatre: AdminData;

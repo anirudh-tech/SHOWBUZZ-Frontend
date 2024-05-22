@@ -132,12 +132,22 @@ export const updateTheatreStatus = createAsyncThunk('theatre/updateStatus', asyn
     status
   )
 })
-export const deleteMovie = createAsyncThunk('movies/deleteMovie', async (status: any, {rejectWithValue}) => {
+export const deleteMovie = createAsyncThunk('movie/deleteMovie', async (status: any, {rejectWithValue}) => {
   return reduxRequest(
     "post",
     `/movie/deleteMovie`,
     config,
     rejectWithValue,
     status
+  )
+})
+
+export const addOttMovie = createAsyncThunk('movie/addOttMovie', async (body: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/movie/addOttMovie`,
+    config,
+    rejectWithValue,
+    body
   )
 })
