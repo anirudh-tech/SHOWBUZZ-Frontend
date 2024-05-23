@@ -1,14 +1,14 @@
-import { IMovie } from '../../interface/ITheatreMovie';
-import { AiFillEdit, AiFillStar, AiOutlineDelete } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
-import { IUserSelector } from '../../interface/IUserSlice';
-import { useNavigate } from 'react-router-dom';
-import Modal from '../Modal/Modal';
+import { AiFillEdit, AiFillStar, AiOutlineDelete } from "react-icons/ai";
+import { IMovie } from "../../interface/ITheatreMovie";
+import { IUserSelector } from "../../interface/IUserSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Modal from "../Modal/Modal";
+import { useEffect, useState } from "react";
+import MuxPlayer from '@mux/mux-player-react';
+import { AppDispatch } from "../../redux/store";
+import { getMovieData } from "../../redux/actions/userActions";
 
-
-
-
-interface Props {
+interface IProps {
   movies: IMovie[];
   setOpen?: any;
   setMovie?: any;
@@ -17,25 +17,48 @@ interface Props {
   positiveClick?: any;
   negativeClick?: any;
   newStatus?: string;
+  setSelectedMovie?: any;
+
 }
-const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handleDeleteClick, positiveClick, negativeClick }: Props) => {
+const OttMovieCard = ({ movies, setOpen,setSelectedMovie,  newStatus, setMovie, isOpen, handleDeleteClick, positiveClick, negativeClick }: IProps) => {
+  const [modal, setModal] = useState<boolean>(false)
+  const dispatch = useDispatch<AppDispatch>()
+  const { ottMovie } = useSelector((state: any) => state.admin);
+  
+  useEffect(() => {
+    console.log("🚀 ~ file: OttMovieCard.tsx:27 ~ OttMovieCard ~ ottMovie:", ottMovie)
+  },[ottMovie])
 
-  const navigate = useNavigate();
-  console.log(movies, 'movies from card');
-
+  const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   const handleClick = (movie: IMovie) => {
     setOpen(true)
     setMovie(movie)
   }
-  const handleMovieClick = (id: string | undefined) => {
-    if (role == 'user') {
-      navigate(`/selectTheatre/${id}`);
-    }
-  }
 
-  const role = useSelector((state: IUserSelector) => state.user?.user?.role);
+  const handleClose = () => {
+    setModal(false)
+  }
+  const handleMovieClick = async (id: string | undefined) => {
+    const response = await dispatch(getMovieData(id))
+    setSelectedMovie(response.payload)
+    setModal(true);
+  }
   return (
     <>
+      {
+        modal && ottMovie && (
+          <div className="w-screen h-screen overflow-hidden">
+            <Modal open={modal} handleClose={handleClose}>     
+                <MuxPlayer
+                  playbackId={ottMovie.video}
+                  streamType="on-demand"
+                  autoPlay
+                  style={{ width: '100%', height: 'auto' }}
+                />
+            </Modal>
+          </div>
+        )
+      }
       {
         isOpen &&
         <Modal open={isOpen}>
@@ -52,7 +75,7 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
         role == 'admin' &&
         <div className='grid xl:grid-cols-5 sm:grid-cols-3 grid-cols-1 gap-5 px-20 mt-6'>
           {movies && movies.map((movie) => (
-            <div onClick={() => handleMovieClick(movie._id)} key={movie._id} className='mb-6 w-full h-3/5 relative cursor-pointer'>
+            <div className='mb-6 w-full h-3/5 relative cursor-pointer'>
               {movie.status === "blocked" &&
                 <>
                   <div className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center text-white text-2xl">
@@ -62,7 +85,7 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
                 </>
               }
               <div className='w-full h-full overflow-clip rounded-t-md'>
-                <img className='object-cover w-full h-full' src={movie?.image} alt="" />
+                <img className='object-cover w-full h-full' src={movie?.banner} alt="" />
               </div>
               <div className='rounded-b-md mb-3 xl:flex-col xl:justify-between xl:items-center p-1 bg-slate-800  w-full'>
                 <div className='flex justify-start ps-2  '>
@@ -76,7 +99,7 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
                 </div>
               </div>
 
-              {movie.status === 'active' ? (
+              {movie?.status === 'active' ? (
                 <>
                   <button onClick={() => handleDeleteClick(movie._id, movie.status)} className='bg-gray-600 flex gap-1 absolute top-14 right-2 p-2 rounded-md text-white hover:bg-red-900'>
                     Delete <AiOutlineDelete className='mt-0.5' />
@@ -87,7 +110,8 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
                 <button onClick={() => handleDeleteClick(movie._id, movie.status)} className='bg-green-600 absolute top-2 right-2 p-2 rounded-md text-white hover:bg-green-900'>
                   Restore
                 </button>
-              )}            </div>
+              )}
+            </div>
           ))}
         </div>
       }
@@ -100,7 +124,7 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
             .map((movie) => (
               <div onClick={() => handleMovieClick(movie._id)} key={movie._id} className='mb-6 w-full h-3/5 relative cursor-pointer'>
                 <div className='w-full h-full overflow-clip rounded-t-md'>
-                  <img className='object-cover w-full h-full' src={movie?.image} alt="" />
+                  <img className='object-cover w-full h-full' src={movie?.banner} alt="" />
                 </div>
                 <div className='rounded-b-md mb-3 xl:flex-col xl:justify-between xl:items-center p-1 bg-slate-800  w-full'>
                   <div className='flex justify-start ps-2  '>
@@ -121,4 +145,4 @@ const TheatreMovieCard = ({ movies, setOpen, newStatus, setMovie, isOpen, handle
   )
 }
 
-export default TheatreMovieCard
+export default OttMovieCard

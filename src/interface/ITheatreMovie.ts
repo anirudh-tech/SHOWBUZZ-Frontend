@@ -3,14 +3,14 @@ export interface IMovie {
   title: string;
   director: string;
   genre: string;
-  format: string[];
-  languagesAvailable: string;
-  image: string;
-  banner: string
+  format?: string[];
+  languagesAvailable?: string;
+  image?: string;
+  banner: string;
   cast: string;
-  type: string;
+  type?: string;
   status?: string;
-  dateOfRelease: Date;
+  dateOfRelease?: Date;
 }
 
 export interface IProps {
@@ -22,11 +22,11 @@ export interface IProps {
 }
 
 export interface IScreen {
-  _id: string,
+  _id: string;
   screenName: string;
   seatCost: number;
-  availableSeats: string ,
-  selectedMovies: IProps[]
+  availableSeats: string;
+  selectedMovies: IProps[];
 }
 
 export interface ITheatre {
@@ -41,12 +41,12 @@ export interface ITheatre {
   status: string;
 }
 
-export interface IDate{
-  date:string;
+export interface IDate {
+  date: string;
   selectedTimes: ITime[];
 }
 
-export interface ITime{
+export interface ITime {
   hour: number;
   min: number;
 }

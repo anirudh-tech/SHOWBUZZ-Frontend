@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IMovie, ITheatre } from "../../../interface/ITheatreMovie";
-import { addScreen, addTheatreMovie, getAllMovies, getAllTheatres, getAllTickets, getAllUsers, listAllTheatre, listTheatre, selectMovies } from "../../actions/adminActions";
+import { addOttMovie, addScreen, addTheatreMovie, getAllMovies, getAllOttMovies, getAllTheatres, getAllTickets, getAllUsers, handleApproval, listAllTheatre, listTheatre, selectMovies } from "../../actions/adminActions";
 
 const adminSlice : any = createSlice({
   name: "adminSlice",
@@ -10,6 +10,8 @@ const adminSlice : any = createSlice({
     theatre: null as IMovie | null,
     movies: null as IMovie[] | null,
     tickets: null as any,
+    ottMovies: null as IMovie[] | null,
+    
     users: null as any,
     error: null as string | null,
     loading: false as boolean,
@@ -100,6 +102,19 @@ const adminSlice : any = createSlice({
       state.error =  action.payload as string;
       state.loading = false;
     })
+    .addCase(handleApproval.pending,(state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(handleApproval.fulfilled,(state, action) => {
+      console.log("🚀 ~ file: adminSlice.ts:81 ~ .addCase ~ action:", action)
+      state.theatres =  action.payload.theatres;
+      state.loading = false;
+    })
+    .addCase(handleApproval.rejected,(state, action) => {
+      state.error =  action.payload as string;
+      state.loading = false;
+    })
     .addCase(getAllTickets.pending,(state) => {
       state.loading = true;
       state.error = null;
@@ -113,6 +128,33 @@ const adminSlice : any = createSlice({
       state.error =  action.payload as string;
       state.loading = false;
     })
+    .addCase(addOttMovie.pending,(state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(addOttMovie.fulfilled,(state, action) => {
+      console.log("🚀 ~ file: adminSlice.ts:81 ~ .addCase ~ action:", action)
+      state.ottMovies =  action.payload.movies;
+      state.loading = false;
+    })
+    .addCase(addOttMovie.rejected,(state, action) => {
+      state.error =  action.payload as string;
+      state.loading = false;
+    })
+    .addCase(getAllOttMovies.pending,(state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getAllOttMovies.fulfilled,(state, action) => {
+      console.log("🚀 ~ file: adminSlice.ts:81 ~ .addCase ~ action:", action)
+      state.ottMovies =  action.payload.movies;
+      state.loading = false;
+    })
+    .addCase(getAllOttMovies.rejected,(state, action) => {
+      state.error =  action.payload as string;
+      state.loading = false;
+    })
+    
   }
 });
 

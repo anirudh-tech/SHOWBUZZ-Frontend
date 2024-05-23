@@ -43,9 +43,6 @@ export const SocketProvider = ({ children }: any) => {
         setOnlineUsers(users)
       })
 
-      // newSocket.on("message recieved", (newMessage: any) => {
-      //   setMessages([...messages, newMessage])
-      // })
       return () => newSocket.close();
     } else {
       if(socket) {
@@ -59,7 +56,10 @@ export const SocketProvider = ({ children }: any) => {
     
   });
   
-  const contextValue: SocketContextType = { socket, onlineUsers };
+  const contextValue: SocketContextType = {
+    socket, onlineUsers,
+    messages: []
+  };
 
   return (
     <SocketContext.Provider value={contextValue}>

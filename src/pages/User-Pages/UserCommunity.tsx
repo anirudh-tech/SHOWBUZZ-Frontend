@@ -252,7 +252,7 @@ const UserCommunity = () => {
                 </div>
               ))
             }
-            <div className="absolute flex cursor-pointer items-center  bottom-0 h-20 w-full ">
+            <div className="absolute flex cursor-pointer rounded-full items-cente bottom-0   ">
               <div className=" text-5xl text-white "
                 onClick={() => {
                   setPlusRotated(!isPlusRotated);

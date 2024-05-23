@@ -8,6 +8,7 @@ import BeatLoader from 'react-spinners/BeatLoader'
 import toast, { Toaster } from 'react-hot-toast';
 import VideoUpload from '../General/VideoUpload';
 import { AddOttMoviesValidationSchema } from '../../schemas/AddOttMoviesValidationSchema';
+import { addOttMovie } from '../../redux/actions/adminActions';
 
 const initialValues = {
   title: '',
@@ -67,10 +68,10 @@ const AdminAddOttMoviesForm = () => {
         };
         console.log(movieData, 'movieData');
         const response = await dispatch(addOttMovie(movieData))
-        // console.log(response, '----')
+        console.log(response, '----')
         setIsLoading(false)
         action.resetForm();
-        navigate('/admin/add-stream-movies')
+        navigate('/admin/stream-movies')
       } else {
         toast.error('Enter Valid Image')
         setIsLoading(false)

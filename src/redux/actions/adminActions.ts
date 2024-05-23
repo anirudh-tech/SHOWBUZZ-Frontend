@@ -132,6 +132,16 @@ export const updateTheatreStatus = createAsyncThunk('theatre/updateStatus', asyn
     status
   )
 })
+
+export const handleApproval = createAsyncThunk('theatre/handleApproval', async (body: any | null , {rejectWithValue}) => {
+  return reduxRequest(
+    "post",
+    `/theatre/handleApproval`,
+    config,
+    rejectWithValue,
+    body
+  )
+})
 export const deleteMovie = createAsyncThunk('movie/deleteMovie', async (status: any, {rejectWithValue}) => {
   return reduxRequest(
     "post",
@@ -149,5 +159,14 @@ export const addOttMovie = createAsyncThunk('movie/addOttMovie', async (body: an
     config,
     rejectWithValue,
     body
+  )
+})
+
+export const getAllOttMovies = createAsyncThunk('movie/getAllOttMovies', async({page, limit}: any, {rejectWithValue}) => {
+  return reduxRequest(
+    "get",
+    `/movie/getAllOttMovies?page=${page}&limit=${limit}`,
+    config,
+    rejectWithValue
   )
 })

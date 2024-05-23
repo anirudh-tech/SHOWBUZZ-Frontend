@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom"
 import Login from "./pages/Login"
 import UserSignup from "./pages/User-Pages/UserSignup"
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import Navbar from "./components/navbar/Navbar";
 import UserHome from "./pages/User-Pages/UserHome";
 import { useEffect } from "react";
 import { AppDispatch } from "./redux/store";
-import { fetchUser } from "./redux/actions/userActions";
+import { fetchUser, logout } from "./redux/actions/userActions";
 import TheatreHome from "./pages/Theatre-Pages/TheatreHome";
 import NotFound from "./pages/NotFound";
 import UserSettings from "./pages/User-Pages/UserSettings";
@@ -40,7 +40,7 @@ import AdminTicketBookingList from "./pages/Admin-Pages/AdminTicketBookingList";
 import TheatreBookingList from "./pages/Theatre-Pages/TheatreBookingList";
 import UserEditProfile from "./pages/User-Pages/UserEditProfile";
 import UserCommunity from "./pages/User-Pages/UserCommunity";
-import MuxStreaming from "./components/MuxStreaming";
+import RequestPendingPage from "./pages/Theatre-Pages/RequestPendingPage";
 
 
 
@@ -48,15 +48,23 @@ function App() {
   const { user, error, } = useSelector((state: IUserSelector) => state.user);
   const role = useSelector((state: IUserSelector) => state.user?.user?.role);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate()
   const id = useSelector((state: IUserSelector) => state.user?.user?._id);
   // const { state } = useLocation()
 
   useEffect(() => {
-    if(role == "theatre"){
+    if (role == "theatre") {
       dispatch(listTheatre(id))
     }
     dispatch(fetchUser());
   }, [id]);
+
+  useEffect(() => {
+    if (user && user.status == "blocked") {
+      dispatch(logout())
+      navigate('/')
+    }
+  }, [user, dispatch])
 
   useEffect(() => {
 
@@ -99,16 +107,33 @@ function App() {
           <Route path='/paymentSuccess' element={user ? <UserPaymentSuccess /> : <Navigate to={'/login'} />} />
           <Route path='/my-tickets' element={user ? <UserTicketsPage /> : <Navigate to={'/login'} />} />
           <Route path='/community' element={user ? <UserCommunity /> : <Navigate to={'/login'} />} />
-          <Route path='/stream' element={user ? <MuxStreaming /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/settings" element={user ?<UserSettings /> : <Navigate to={'/login'} />} />
-          <Route path="/settings/edit-profile" element={user ?<UserEditProfile /> : <Navigate to={'/login'} />} />
+          <Route path="/settings" element={user ? <UserSettings /> : <Navigate to={'/login'} />} />
+          <Route path="/settings/edit-profile" element={user ? <UserEditProfile /> : <Navigate to={'/login'} />} />
         </Routes>
       </>
     );
   }
 
-  if (user?.role === 'theatre') {
+  if (user?.role === 'theatre' && user?.status === "pending") {
+    return (
+      <>
+        <Toaster position="top-center" />
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Navigate to="/theatre/dashboard" />} />
+          <Route path="/theatre/signup" element={<Navigate to="/theatre/dashboard" />} />
+          <Route path="/login" element={<Navigate to="/theatre/dashboard" />} />
+          <Route path='/theatre/dashboard' element={user ? <RequestPendingPage /> : <Navigate to={'/'} />} />
+          <Route path="/theatre/settings" element={<TheatreProtectedRoute element={<TheatreSettings />} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </>
+    )
+  }
+
+
+  if (user?.role === 'theatre' && user?.status === "active") {
 
     return (
       <>

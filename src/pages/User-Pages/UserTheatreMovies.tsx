@@ -1,6 +1,6 @@
 import useFetchData from '../../hooks/FetchData';
 // import { useNavigate } from 'react-router-dom';
-import TheatreBanner from '../../components/TheatreBanner/TheatreBanner';
+import TheatreBanner from '../../components/Banner/TheatreBanner';
 import TheatreMovieCard from '../../components/MovieCard/TheatreMovieCard';
 import BeatLoader from 'react-spinners/BeatLoader';
 

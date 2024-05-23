@@ -121,6 +121,15 @@ export const sendMessage = createAsyncThunk('chat/sendMessage', async (body: any
     )
   })
 
+  export const getMovieData = createAsyncThunk('/movie/getMovieData', async(id: any, {rejectWithValue}) => {
+    return reduxRequest(
+      "get",
+      `/movie/getMovieData/${id}`,
+      config,
+      rejectWithValue
+    )
+  })
+
 export const logout = createAsyncThunk("user/logout", async () => {
     try {
         const response = await axios.get(`${baseUrl}/auth/logout`,{withCredentials: true});
