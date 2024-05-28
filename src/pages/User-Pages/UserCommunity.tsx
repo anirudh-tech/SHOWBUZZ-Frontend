@@ -147,6 +147,7 @@ const UserCommunity = () => {
     socket.emit("new message",(data))
     // setSelectedGroupMessages(res.payload?.reverse())
     setMessageText("")
+    dispatch(listGroups())
 
   };
 
@@ -294,7 +295,7 @@ const UserCommunity = () => {
                     <div className="absolute top-0 w-full flex gap-1 justify-start bg-black border border-gray-600 z-10 p-4">
                       <h1 className=" font-bold bg-gradient-to-r from-amber-400 via-orange-500 to-yellow-500 bg-clip-text text-transparent">{selectedGroup}</h1>
                     </div>
-                    <div className="h-5/6 w-full overflow-y-scroll scrollBar p-4" ref={messageBoxRef}>
+                    <div className="h-5/6 w-full pt-14 overflow-y-scroll scrollBar p-4" ref={messageBoxRef}>
                       {
                         selectedGroupMessages.length == 0 ? (
                           <>

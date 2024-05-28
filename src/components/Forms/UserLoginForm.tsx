@@ -107,7 +107,7 @@ function UserLoginForm() {
           </div>
           <button
             type='submit'
-            className='bg-green-400 w-full text-white px-8 py-2 rounded-md hover:bg-green-600 focus:outline-none'
+            className='bg-green-400 w-full text-white duration-300 px-8 py-2 rounded-md hover:bg-green-600 focus:outline-none'
           >
             Login
           </button>

@@ -24,12 +24,12 @@ const ApproveRequests = ({setApprovalModal}: any) => {
   const [activePage, setActivePage] = useState<number>(1);
   const [totalPage, setTotalPage] = useState(1);
   const dispatch = useDispatch<AppDispatch>();
-  const [approvals, setApprovals] = useState([]);
+  const [approvals, setApprovals] = useState<any>([]);
 
 
   const toggleUserStatus = async (id: string, status: string) => {
     await dispatch(handleApproval({ id, status }));
-    setApprovals(prevApprovals => prevApprovals.filter(approval => approval._id !== id));
+    setApprovals((prevApprovals: any) => prevApprovals.filter((approval: any) => approval._id !== id));
   };
 
   useEffect(() => {

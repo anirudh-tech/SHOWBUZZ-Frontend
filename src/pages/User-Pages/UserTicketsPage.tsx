@@ -1,11 +1,21 @@
-import { useState } from "react";
-import useFetchData from "../../hooks/FetchData";
-import QRCode from 'react-qr-code';
+import { useEffect, useState } from "react";
+import fetchData from "../../utils/fetchData";
+// import QRCode from 'react-qr-code';
 
 const UserTicketsPage = () => {
   const [selected, setSelected] = useState('upcoming');
-  const { data: tickets } = useFetchData('/payment/listTickets');
+  const [tickets, setTickets] = useState([]);
   console.log("🚀 ~ file: UserTicketsPage.tsx:5 ~ UserTicketsPage ~ tickets:", tickets);
+
+
+  useEffect(() => {
+    const fetchingData = async () => {
+      const {data} = await fetchData('/payment/listTickets')
+      console.log("🚀 ~ file: UserTicketsPage.tsx:15 ~ fetchingData ~ data:", data)
+      setTickets(data)
+    }
+    fetchingData();
+  },[tickets])
 
 
   // Filter tickets based on selected status
@@ -45,10 +55,10 @@ const UserTicketsPage = () => {
             Expired
           </button>
         </div>
-        <div className="flex justify-evenly gap-3 flex-wrap pt-6">
+        <div className="grid md:grid-cols-1  gap-4 p-3 pt-6">
           {
             filteredTickets.map((ticket: any, index: number) => (
-              <div className="border-white bg-gradient-to-r w-1/4 from-black to-gray-800 py-3 px-10  border-2 rounded-md flex flex-col h-fit gap-4" key={index}>
+              <div className="border-white bg-gradient-to-r w-full from-black to-gray-800 py-3 px-10  border-2 rounded-md flex flex-col h-fit gap-4" key={index}>
                 <div className="flex justify-between">
                   <div className="">
                     <h1 className="text-white text-lg"> Date </h1>
@@ -91,9 +101,9 @@ const UserTicketsPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                   <QRCode size={170} value={JSON.stringify(ticket)} />
-                </div>
+                </div> */}
                 {/* <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3 text-2xl"> Download Ticket
                 </button> */}
               </div>

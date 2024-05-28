@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import TableComponent from '../../components/Table/TableComponent';
+import { useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -17,8 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import Badge from '@mui/material/Badge';
 import fetchData from '../../utils/fetchData';
-import Modal from '../../components/Modal/Modal';
 import ApproveRequests from '../../components/General/ApproveRequests';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const AdminTheatresList = () => {
   const [activePage, setActivePage] = useState<number>(1)
@@ -30,7 +30,7 @@ const AdminTheatresList = () => {
   const [approvalModal, setApprovalModal] = useState(false);
   const [approvals, setApprovals] = useState([]);
 
-  const { theatres } = useSelector((state: any) => state.admin);
+  const { theatres, loading } = useSelector((state: any) => state.admin);
   const dispatch = useDispatch<AppDispatch>()
   console.log("🚀 ~ file: AdminUsersList.tsx:8 ~ AdminUsersList ~ users:", theatres)
 
@@ -101,9 +101,10 @@ const AdminTheatresList = () => {
       }
       {
         approvalModal ? (
-          <ApproveRequests setApprovalModal={setApprovalModal}  />
+          <ApproveRequests setApprovalModal={setApprovalModal} />
         ) : (
           <>
+           
             <h1 className='text-white text-3xl ms-14  text-center font-bold mt-4'>THEATRES LIST</h1>
             <div className='flex justify-end pe-5'>
               <Badge badgeContent={approvals?.length} color="primary">
