@@ -43,19 +43,17 @@ export const SocketProvider = ({ children }: any) => {
         setOnlineUsers(users)
       })
 
-      return () => newSocket.close();
+      return () => {
+        newSocket.close();
+      }
     } else {
       if(socket) {
         socket.close()
       }
       setSocket(null)
     }
-  },[user])
+  },[id, socket, user])
 
-  useEffect(() => {
-    
-  });
-  
   const contextValue: SocketContextType = {
     socket, onlineUsers,
     messages: []
