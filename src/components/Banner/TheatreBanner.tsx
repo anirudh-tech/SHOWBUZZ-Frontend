@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IMovie } from '../../interface/ITheatreMovie';
 // import AwesomeSlider from 'react-awesome-slider';
 // import 'react-awesome-slider/dist/custom-animations/cube-animation.css';

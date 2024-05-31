@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import loginImage from '../../assets/loginImage2.jpg';
 import { useFormik } from 'formik';
 import { ValidationSchema } from '../../schemas/ValidationSchema';
