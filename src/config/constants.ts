@@ -1,2 +1,2 @@
-export const baseUrl = 'https://k8s-default-showbuzz-0d76b96f50-1561540104.us-east-1.elb.amazonaws.com'
+export const baseUrl = 'https://showbuzz.tickertick.shop'
 export const SOCKET_URL = import.meta.env.VITE_REACT_APP_SOCKET_URL
