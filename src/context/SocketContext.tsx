@@ -32,7 +32,7 @@ export const SocketProvider = ({ children }: any) => {
 
   useEffect(() => {
     if(user){
-      const newSocket = io(SOCKET_URL,{
+      const newSocket = io("https://showbuzz.tickertick.shop/chat",{
         query:{
           userId: id
         }
