@@ -23,6 +23,7 @@ export const useSocketContext  = (): SocketContextType => {
 
 
 export const SocketProvider = ({ children }: any) => {
+  console.log("Recahed inside socket Provider")
   const { user} = useSelector((state: IUserSelector) => state.user);
   const id = useSelector((state: IUserSelector) => state.user?.user?._id);
   
