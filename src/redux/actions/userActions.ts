@@ -66,7 +66,7 @@ export const updateUser = createAsyncThunk("user/updateUser", async (userCredent
 export const createGroup = createAsyncThunk('chat/createGroup', async (body: any | null , {rejectWithValue}) => {
     return reduxRequest(
       "post",
-      `/chat/chat/createGroup`,
+      `/chat/createGroup`,
       config,
       rejectWithValue,
       body
@@ -76,7 +76,7 @@ export const createGroup = createAsyncThunk('chat/createGroup', async (body: any
 export const listGroups = createAsyncThunk('chat/listGroups', async (_ , {rejectWithValue}) => {
     return reduxRequest(
       "get",
-      `/chat/chat/listGroups`,
+      `/chat/listGroups`,
       config,
       rejectWithValue,
     )
@@ -85,7 +85,7 @@ export const listGroups = createAsyncThunk('chat/listGroups', async (_ , {reject
 export const joinGroup = createAsyncThunk('chat/joinGroup', async (body: any , {rejectWithValue}) => {
     return reduxRequest(
       "put",
-      `/chat/chat/joinGroup`,
+      `/chat/joinGroup`,
       config,
       rejectWithValue,
       body
@@ -95,7 +95,7 @@ export const joinGroup = createAsyncThunk('chat/joinGroup', async (body: any , {
 export const getMessage = createAsyncThunk('chat/getMessage', async (groupId: any , {rejectWithValue}) => {
     return reduxRequest(
       "post",
-      `/chat/chat/getMessage`,
+      `/chat/getMessage`,
       config,
       rejectWithValue,
       groupId
@@ -105,7 +105,7 @@ export const getMessage = createAsyncThunk('chat/getMessage', async (groupId: an
 export const listMessages = createAsyncThunk('chat/listMessages', async (chatId: any , {rejectWithValue}) => {
     return reduxRequest(
       "get",
-      `/chat/chat/listMessages/${chatId}`,
+      `/chat/listMessages/${chatId}`,
       config,
       rejectWithValue,
     )
@@ -114,7 +114,7 @@ export const listMessages = createAsyncThunk('chat/listMessages', async (chatId:
 export const sendMessage = createAsyncThunk('chat/sendMessage', async (body: any , {rejectWithValue}) => {
     return reduxRequest(
       "post",
-      `/chat/chat/send-message`,
+      `/chat/send-message`,
       config,
       rejectWithValue,
       body
