@@ -40,7 +40,7 @@ const VideoUpload = ({ id, title, setFieldValue, handleBlur, errors, touched }: 
 
         try {
             const response = await axios.get(
-                'http://localhost:8000/movie/uploadVideo'
+                'https://showbuzz.tickertick.shop/movie/uploadVideo'
             );
             const upload = UpChunk.createUpload({
                 endpoint: response.data.url,
@@ -68,7 +68,7 @@ const VideoUpload = ({ id, title, setFieldValue, handleBlur, errors, touched }: 
     const pollForPlaybackId = async (uploadId: string): Promise<void> => {
         const interval = setInterval(async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/movie/getPlaybackId?uploadId=${uploadId}`);
+                const response = await axios.get(`https://showbuzz.tickertick.shop/movie/getPlaybackId?uploadId=${uploadId}`);
                 const playbackId = response.data.playback_id;
                 setFieldValue(id, playbackId);
 
