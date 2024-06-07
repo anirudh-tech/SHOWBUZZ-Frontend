@@ -1,6 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState } from "react";
 import io from "socket.io-client"
-import { SOCKET_URL } from "../config/constants";
 import { useSelector } from "react-redux";
 import { IUserSelector } from "../interface/IUserSlice";
 
@@ -30,29 +30,29 @@ export const SocketProvider = ({ children }: any) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
 
 
-  // useEffect(() => {
-  //   if(user){
-  //     const newSocket = io("showbuzz.tickertick.shop/chat",{
-  //       query:{
-  //         userId: id
-  //       }
-  //     })
-  //     setSocket(newSocket)
+  useEffect(() => {
+    if(user){
+      const newSocket = io("showbuzz.tickertick.shop/chat",{
+        query:{
+          userId: id
+        }
+      })
+      setSocket(newSocket)
 
-  //     newSocket.on("getOnlineUsers", (users) => {
-  //       setOnlineUsers(users)
-  //     })
+      newSocket.on("getOnlineUsers", (users) => {
+        setOnlineUsers(users)
+      })
 
-  //     return () => {
-  //       newSocket.close();
-  //     }
-  //   } else {
-  //     if(socket) {
-  //       socket.close()
-  //     }
-  //     setSocket(null)
-  //   }
-  // },[id, socket, user])
+      return () => {
+        newSocket.close();
+      }
+    } else {
+      if(socket) {
+        socket.close()
+      }
+      setSocket(null)
+    }
+  },[id, socket, user])
 
   const contextValue: SocketContextType = {
     socket, onlineUsers,
