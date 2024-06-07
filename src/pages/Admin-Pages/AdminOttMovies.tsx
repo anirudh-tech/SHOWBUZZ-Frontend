@@ -74,7 +74,7 @@ const AdminOttMovies = () => {
               <div className='flex flex-col justify-center'>
                 <h1 className='text-3xl text-white'>No Movies where added</h1>
                 <div className='text-center me-4'>
-                  <button onClick={() => navigate('/admin/addMovies')} className='bg-red-600 p-3 rounded-md text-white hover:bg-red-900'>ADD MOVIES</button>
+                  <button onClick={() => navigate('/admin/add-stream-movies')} className='bg-red-600 p-3 rounded-md text-white hover:bg-red-900'>ADD MOVIES</button>
                 </div>
               </div>
             </div>
