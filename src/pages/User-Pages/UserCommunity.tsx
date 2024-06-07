@@ -78,9 +78,12 @@ const UserCommunity = () => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    
     const body = {
       groupName
     }
+    console.log("🚀 ~ file: UserCommunity.tsx:85 ~ handleSubmit ~ body.groupName:", body.groupName)
+    console.log("🚀 ~ file: UserCommunity.tsx:85 ~ handleSubmit ~ body.groupName:", groupName)
     if (groupName.trim() === '') {
       setGroupError("Group name cannot be empty");
       setTimeout(() => {
