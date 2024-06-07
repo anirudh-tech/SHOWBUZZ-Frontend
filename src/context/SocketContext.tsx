@@ -54,7 +54,7 @@ export const SocketProvider = ({ children }: any) => {
       }
       setSocket(null)
     }
-  },[socket])
+  },[user])
 
   const contextValue: SocketContextType = {
     socket, onlineUsers,
