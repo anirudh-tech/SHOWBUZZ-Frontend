@@ -105,7 +105,7 @@ export const getMessage = createAsyncThunk('chat/getMessage', async (groupId: an
 export const listMessages = createAsyncThunk('chat/listMessages', async (chatId: any , {rejectWithValue}) => {
     return reduxRequest(
       "get",
-      `/chat/message/listMessages/${chatId}`,
+      `/chat/chat/listMessages/${chatId}`,
       config,
       rejectWithValue,
     )
@@ -114,7 +114,7 @@ export const listMessages = createAsyncThunk('chat/listMessages', async (chatId:
 export const sendMessage = createAsyncThunk('chat/sendMessage', async (body: any , {rejectWithValue}) => {
     return reduxRequest(
       "post",
-      `/chat/message/send-message`,
+      `/chat/chat/send-message`,
       config,
       rejectWithValue,
       body

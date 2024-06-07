@@ -48,13 +48,10 @@ const UserCommunity = () => {
 
   useEffect(() => {
     socket?.on("message recieved", (newMessage: any) => {
-      console.log("🚀 ~ file: UserCommunity.tsx:46 ~ socket?.on ~ newMessage:", newMessage)
-      console.log("🚀 ~ file: UserCommunity.tsx:49 ~ socket?.on ~ selectedGroupMessages:", selectedGroupMessages)
       setSelectedGroupMessages([...selectedGroupMessages, newMessage])
       
     })
   },[selectedGroupMessages]);
-  console.log("🚀 ~ file: UserCommunity.tsx:49 ~ socket?.on ~ selectedGroupMessages:", selectedGroupMessages)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -67,8 +64,7 @@ const UserCommunity = () => {
   const idPop = open ? 'simple-popover' : undefined;
 
   const handleGroupSelect = async (id: string, name: string) => {
-    const response = await dispatch(getMessage({ id }))
-    console.log("🚀 ~ file: UserCommunity.tsx:30 ~ handleGroupSelect ~ response:", response)
+    await dispatch(getMessage({ id }))
     setSelectedGroup(name)
     setChatId(id)
     const res = await dispatch(listMessages(id))
