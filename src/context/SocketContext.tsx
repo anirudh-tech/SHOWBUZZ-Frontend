@@ -30,29 +30,29 @@ export const SocketProvider = ({ children }: any) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
 
 
-  // useEffect(() => {
-  //   if(user){
-  //     const newSocket = io("showbuzz.tickertick.shop",{
-  //       query:{
-  //         userId: id
-  //       }
-  //     })
-  //     setSocket(newSocket)
+  useEffect(() => {
+    if(user){
+      const newSocket = io("showbuzz.tickertick.shop",{
+        query:{
+          userId: id
+        }
+      })
+      setSocket(newSocket)
 
-  //     newSocket.on("getOnlineUsers", (users) => {
-  //       setOnlineUsers(users)
-  //     })
+      newSocket.on("getOnlineUsers", (users) => {
+        setOnlineUsers(users)
+      })
 
-  //     return () => {
-  //       newSocket.close();
-  //     }
-  //   } else {
-  //     if(socket) {
-  //       socket.close()
-  //     }
-  //     setSocket(null)
-  //   }
-  // },[user])
+      return () => {
+        newSocket.close();
+      }
+    } else {
+      if(socket) {
+        socket.close()
+      }
+      setSocket(null)
+    }
+  },[])
 
   const contextValue: SocketContextType = {
     socket, onlineUsers,
