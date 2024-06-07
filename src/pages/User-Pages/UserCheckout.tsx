@@ -46,7 +46,7 @@ const UserCheckout = () => {
     setTotalAmount(Math.ceil(state.totalAmount * 0.03) + baseAmount + state.totalAmount)
   }, [state])
   return (
-    <div className="flex flex-col mt-24 justify-center items-center w-full">
+    <div className="flex flex-col pt-24 justify-center items-center w-full">
       <div className="bg-white w-80 p-5  flex flex-col relative">
         <div className="">
           <h1 className="text-2xl text-red-800 font-bebas-neue font-extralight">BOOKING SUMMARY</h1>
