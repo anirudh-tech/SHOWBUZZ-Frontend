@@ -31,7 +31,7 @@ function UserHome() {
         {
           ottMovies?.length ? (
             <>
-              <OttBanner selectedMovie={selectedMovie} movies={ottMovies} />
+              <OttBanner setSelectedMovie={setSelectedMovie} selectedMovie={selectedMovie} movies={ottMovies} />
               <OttMovieCard setSelectedMovie={setSelectedMovie} movies={ottMovies} />
             </>
           ) : (

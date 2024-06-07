@@ -5,15 +5,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
-import { useNavigate } from 'react-router-dom';
 import MuxPlayer from '@mux/mux-player-react';
+import { getMovieData } from '../../redux/actions/userActions';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
 
 interface Props {
   movies: IMovie[];
   selectedMovie: any;
+  setSelectedMovie: any;
 }
-const OttBanner = ({ movies, selectedMovie }: Props) => {
-  const navigate = useNavigate()
+const OttBanner = ({ movies, selectedMovie, setSelectedMovie }: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
   const [moviesLength, setMoviesLength] = useState(0)
   useEffect(() => {
     const moviesLengthArray = movies
@@ -21,6 +24,11 @@ const OttBanner = ({ movies, selectedMovie }: Props) => {
     console.log("🚀 ~ file: TheatreBanner.tsx:22 ~ useEffect ~ moviesLengthArray:", moviesLengthArray)
     setMoviesLength(moviesLengthArray.length)
   }, [movies])
+
+  const handleClick = async(id: string) => {
+    const response = await dispatch(getMovieData(id))
+    setSelectedMovie(response.payload)
+  }
   return (
     <>
       {
@@ -65,7 +73,7 @@ const OttBanner = ({ movies, selectedMovie }: Props) => {
                               <h1 className='text-lg font-semibold py-2 text-white'>GENRE :<span className='px-3 font-normal'>{movie.genre}</span></h1>
                               <h1 className='text-lg font-semibold py-2 text-white'>CAST :<span className='px-3  font-normal'>{movie.cast}</span></h1>
                               <button onClick={() => {
-                                navigate(`/selectTheatre/${movie._id}`);
+                                handleClick(movie._id)
                               }} className='bg-red-500 rounded-md px-6 text-white p-3'>Watch Now</button>
                             </div>
                           </div>
