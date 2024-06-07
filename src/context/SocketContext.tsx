@@ -42,6 +42,7 @@ export const SocketProvider = ({ children }: any) => {
       newSocket.on("getOnlineUsers", (users) => {
         setOnlineUsers(users)
       })
+      console.log("🚀 ~ file: SocketContext.tsx:55 ~ useEffect ~ newSocket:", newSocket)
 
       return () => {
         newSocket.close();
