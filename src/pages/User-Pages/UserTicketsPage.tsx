@@ -102,7 +102,7 @@ const UserTicketsPage = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center">
+                <div className="flex justify-center w-[100px] bg-red-500">
                   <QRCode value={JSON.stringify(ticket)} />
                 </div>
                 {/* <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3 text-2xl"> Download Ticket
