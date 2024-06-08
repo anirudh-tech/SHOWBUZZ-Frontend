@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchData from "../../utils/fetchData";
-import QRCode from 'react-qr-code';
+import QRCode from 'qrcode.react';
+
 
 const UserTicketsPage = () => {
   const [selected, setSelected] = useState('upcoming');
@@ -10,12 +11,12 @@ const UserTicketsPage = () => {
 
   useEffect(() => {
     const fetchingData = async () => {
-      const {data} = await fetchData('/payment/listTickets')
+      const { data } = await fetchData('/payment/listTickets')
       console.log("🚀 ~ file: UserTicketsPage.tsx:15 ~ fetchingData ~ data:", data)
       setTickets(data)
     }
     fetchingData();
-  },[tickets])
+  }, [tickets])
 
 
   // Filter tickets based on selected status
@@ -102,7 +103,7 @@ const UserTicketsPage = () => {
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <QRCode size={170} value={JSON.stringify(ticket)} />
+                  <QRCode value={JSON.stringify(ticket)} />
                 </div>
                 {/* <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3 text-2xl"> Download Ticket
                 </button> */}
