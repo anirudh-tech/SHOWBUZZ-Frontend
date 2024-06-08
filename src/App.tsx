@@ -86,6 +86,7 @@ function App() {
           <Route path="/signup" element={<UserSignup />} />
           <Route path="/theatre/signup" element={<TheatreSignup />} />
           <Route path="/" element={<Navigate to="/login" />} />
+          <Route path='/ticketDetails/:id' element={<TicketDetailsPage />} />
           {/* <Route path="*" element={<Navigate to="/login" />} /> */}
         </Routes>
       </>
@@ -108,7 +109,6 @@ function App() {
           <Route path='/paymentSuccess' element={user ? <UserPaymentSuccess /> : <Navigate to={'/login'} />} />
           <Route path='/my-tickets' element={user ? <UserTicketsPage /> : <Navigate to={'/login'} />} />
           <Route path='/community' element={user ? <UserCommunity /> : <Navigate to={'/login'} />} />
-          <Route path='/ticketDetails/:id' element={user ? <TicketDetailsPage /> : <Navigate to={'/login'} />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={user ? <UserSettings /> : <Navigate to={'/login'} />} />
           <Route path="/settings/edit-profile" element={user ? <UserEditProfile /> : <Navigate to={'/login'} />} />
