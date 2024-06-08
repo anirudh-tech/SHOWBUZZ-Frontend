@@ -26,11 +26,11 @@ const TicketDetailsPage = () => {
   let formattedTime: any;
 
   const changeTime = (ticket: any) => {
-    const formattedHour = ticket.hour % 12 || 12;
+    const formattedHour = ticket?.hour % 12 || 12;
 
-    const period = ticket.hour < 12 ? 'AM' : 'PM';
+    const period = ticket?.hour < 12 ? 'AM' : 'PM';
 
-    formattedTime = `${formattedHour.toString().padStart(2, '0')}:${ticket.min.toString().padStart(2, '0')} ${period}`;
+    formattedTime = `${formattedHour?.toString().padStart(2, '0')}:${ticket?.min.toString().padStart(2, '0')} ${period}`;
     return formattedTime
 
   }
@@ -44,13 +44,13 @@ const TicketDetailsPage = () => {
         </div>
         <div className="ticket-info">
           {
-            ticket.ticket.map((seat: string, index1: number) => (
+            ticket?.ticket.map((seat: string, index1: number) => (
               <div className="" key={index1}>
                 <h1 className="text-white text-2xl">{seat}</h1>
               </div>
             ))
           }
-          <p>Date: {changeDate(ticket.date)}</p>
+          <p>Date: {changeDate(ticket?.date)}</p>
           <p>Time: {changeTime(ticket)}</p>
         </div>
       </div>
