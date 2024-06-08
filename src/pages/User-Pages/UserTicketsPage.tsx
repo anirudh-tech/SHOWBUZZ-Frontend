@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import fetchData from "../../utils/fetchData";
-// import QRCode from 'react-qr-code';
+import QRCode from 'react-qr-code';
 
 const UserTicketsPage = () => {
   const [selected, setSelected] = useState('upcoming');
@@ -101,9 +101,9 @@ const UserTicketsPage = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="flex justify-center">
+                <div className="flex justify-center">
                   <QRCode size={170} value={JSON.stringify(ticket)} />
-                </div> */}
+                </div>
                 {/* <button className="bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 rounded-md px-6 text-white p-3 text-2xl"> Download Ticket
                 </button> */}
               </div>
