@@ -21,7 +21,7 @@ const UserPaymentSuccess = () => {
     fetchingData()
   },[])
   return (
-    <div className="">
+    <div className="pt-16">
       <div className="p-6 md:mx-auto">
         <svg viewBox="0 0 24 24" className="text-green-600 w-16 h-16 mx-auto my-6">
             <path fill="currentColor"

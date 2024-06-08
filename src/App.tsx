@@ -112,6 +112,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="/settings" element={user ? <UserSettings /> : <Navigate to={'/login'} />} />
           <Route path="/settings/edit-profile" element={user ? <UserEditProfile /> : <Navigate to={'/login'} />} />
+          <Route path='/ticketDetails/:id' element={<TicketDetailsPage />} />
         </Routes>
       </>
     );
