@@ -33,7 +33,7 @@ export const SocketProvider = ({ children }: any) => {
 
   useEffect(() => {
     if(user){
-      const newSocket = io("showbuzz.tickertick.shop",{
+      const newSocket = io("https://showbuzz-api-gateway-latest.onrender.com/chat",{
         query:{
           userId: id
         }
