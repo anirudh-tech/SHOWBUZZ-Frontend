@@ -129,9 +129,9 @@ function UserLoginForm() {
           <Link className='mx-2 text-blue-900 font-bold hover:underline hover:text-red-700' to="/signup">
           Sign Up Here
         </Link></p>
+      <p className='text-white'>Demo Email For Theatre: hawox27524@reebsd.com</p>
+      <p className='text-white'>Password: Palaxi@123</p>
       </div>
-      <p>Demo Email For Theatre: hawox27524@reebsd.com</p>
-      <p>Password: Palaxi@123</p>
     </section>
     </>
   )
