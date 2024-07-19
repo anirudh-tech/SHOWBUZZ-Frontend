@@ -24,7 +24,6 @@ function SideBar(props: React.ComponentProps<typeof NavLink> | AdditionalProps) 
   ] : (role === 'theatre') ? [
     { to: '/theatre/dashboard', icon: <RiDashboardLine />, name: 'Dashboard' },
     { to: '/theatre/movies', icon: <BiUser />, name: 'Movies' },
-    { to: '/theatre/show-bookings', icon: <BiHistory />, name: 'Show Bookings' },
     { to: '/theatre/bookings-list', icon: <AiOutlineHeart />, name: 'List Of Bookings' },
     { to: '/theatre/settings', icon: <FiSettings />, name: 'Settings' },
   ] : (role === 'admin') ? [
