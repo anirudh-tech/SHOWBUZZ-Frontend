@@ -130,6 +130,8 @@ function UserLoginForm() {
           Sign Up Here
         </Link></p>
       </div>
+      <p>Demo Email For Theatre: hawox27524@reebsd.com</p>
+      <p>Password: Palaxi@123</p>
     </section>
     </>
   )
